@@ -1,0 +1,6 @@
+---
+fixtures:
+  symlinks:
+    selinux: "#{source_dir}"
+    common: "#{source_dir}/../common"
+    stdlib: "#{source_dir}/../stdlib"
