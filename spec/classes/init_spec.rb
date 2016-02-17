@@ -10,5 +10,5 @@ describe 'selinux' do
     :selinux_enforced => true
   }}
 
-  it { should compile.with_all_deps }
+  it { is_expected.to compile.with_all_deps }
 end
