@@ -16,6 +16,7 @@ class selinux (
 #     Note, it is quite possible that 'mls' will render your system inoperable.
   $mode = 'targeted'
 ) {
+  validate_array_member($mode,['targeted','mls'])
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
 
@@ -26,8 +27,4 @@ class selinux (
     mode    => '0644',
     content => template('selinux/sysconfig.erb')
   }
-
-  # Validation
-
-  validate_array_member($mode,['targeted','mls'])
 }
