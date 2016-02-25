@@ -3,5 +3,6 @@ fixtures:
   repositories:
     simplib: "git://github.com/simp/pupmod-simp-simplib"
     stdlib:  "git://github.com/simp/puppetlabs-stdlib"
+    compliance: "https://github.com/trevor-vaughan/pupmod-compliance"
   symlinks:
     selinux: "#{source_dir}"

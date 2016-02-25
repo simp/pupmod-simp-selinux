@@ -1,7 +1,7 @@
 Summary: SELinux Puppet Module
 Name: pupmod-selinux
 Version: 1.0.0
-Release: 4
+Release: 5
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -10,6 +10,7 @@ Requires: puppet >= 3.3.0
 Buildarch: noarch
 Requires: simp-bootstrap >= 4.2.0
 Obsoletes: pupmod-selinux-test
+Requires: pupmod-onyxpoint-compliance_markup
 
 Prefix:"/etc/puppet/environments/simp/modules"
 
@@ -48,6 +49,9 @@ mkdir -p %{buildroot}/%{prefix}/selinux
 # Post uninitall stuff
 
 %changelog
+* Thu Feb 25 2016 Ralph Wright <ralph.wright@onyxpoint.com> - 1.0.0-5
+- Added compliance function support
+
 * Fri Jan 16 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 1.0.0-4
 - Changed puppet-server requirement to puppet
 

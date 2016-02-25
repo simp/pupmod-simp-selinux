@@ -18,6 +18,8 @@ class selinux (
 ) {
   validate_array_member($mode,['targeted','mls'])
 
+  compliance_map()
+
   selinux_state { 'set_selinux_state': ensure => $ensure }
 
   file { '/etc/selinux/config':
