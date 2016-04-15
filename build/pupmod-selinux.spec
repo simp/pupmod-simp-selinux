@@ -1,7 +1,7 @@
 Summary: SELinux Puppet Module
 Name: pupmod-selinux
-Version: 1.0.0
-Release: 6
+Version: 1.0.1
+Release: 0
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -49,7 +49,7 @@ mkdir -p %{buildroot}/%{prefix}/selinux
 # Post uninitall stuff
 
 %changelog
-* Tue Apr 12 2016 Kendall Moore <kendall.moore@onyxpoint.com> - 1.0.0-6
+* Tue Apr 12 2016 Kendall Moore <kendall.moore@onyxpoint.com> - 1.0.1-0
 - Removed custom type deprecation warning
 
 * Thu Feb 25 2016 Ralph Wright <ralph.wright@onyxpoint.com> - 1.0.0-5

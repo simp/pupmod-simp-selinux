@@ -1,6 +1,6 @@
 {
   "name":    "simp-selinux",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author":  "SIMP",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   "tags": [ "simp", "selinux" ],
   "dependencies": [
     {
-      "name": "simp-simplib",
+      "name": "simp/simplib",
       "version_requirement": ">= 1.0.0"
     },
     {
