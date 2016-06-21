@@ -29,4 +29,8 @@ class selinux (
     mode    => '0644',
     content => template('selinux/sysconfig.erb')
   }
+
+  package { 'policycoreutils-python':
+    ensure => 'latest'
+  }
 }
