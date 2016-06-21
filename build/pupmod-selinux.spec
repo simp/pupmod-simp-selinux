@@ -1,6 +1,6 @@
 Summary: SELinux Puppet Module
 Name: pupmod-selinux
-Version: 1.0.1
+Version: 1.0.2
 Release: 0
 License: Apache License, Version 2.0
 Group: Applications/System
@@ -49,6 +49,9 @@ mkdir -p %{buildroot}/%{prefix}/selinux
 # Post uninitall stuff
 
 %changelog
+* Tue Jun 21 2016 Nick Markowski <nmarkowski@keywcorp.com> - 1.0.2-0
+- policycoreutils-python now installed by default.
+
 * Tue Apr 12 2016 Kendall Moore <kendall.moore@onyxpoint.com> - 1.0.1-0
 - Removed custom type deprecation warning
 
