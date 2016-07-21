@@ -1,5 +1,7 @@
----
-fixtures:
-  symlinks:
-    selinux: "#{source_dir}"
-    stdlib: "#{source_dir}/../stdlib"
+--- 
+  fixtures: 
+    symlinks: 
+      compliance: "#{source_dir}/../compliance"
+      selinux: "#{source_dir}"
+      simplib: "#{source_dir}/../simplib"
+      stdlib: "#{source_dir}/../stdlib"
