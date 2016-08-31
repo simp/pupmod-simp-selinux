@@ -47,8 +47,10 @@ class selinux (
   }
 
   if $manage_utils_package {
-    package { 'policycoreutils-python':
-      ensure => 'latest'
+    if !defined(Package['policycoreutils-python']) {
+      package { 'policycoreutils-python':
+        ensure => 'latest'
+      }
     }
   }
 }
