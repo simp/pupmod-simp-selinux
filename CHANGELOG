@@ -1,3 +1,8 @@
+* Wed Aug 31 2016 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 1.0.3-0
+- Ensure that policycoreutils-python is only installed if not installed
+  elsewhere. This deconflicts with various hotfixes that were needed in other
+  modules.
+
 * Tue Jun 21 2016 Nick Markowski <nmarkowski@keywcorp.com> - 1.0.2-0
 - policycoreutils-python now installed by default.
 

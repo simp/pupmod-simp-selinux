@@ -1,6 +1,6 @@
 {
   "name":    "simp-selinux",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author":  "SIMP",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -9,6 +9,10 @@
   "issues_url":   "https://simp-project.atlassian.net",
   "tags": [ "simp", "selinux" ],
   "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.9.0"
+    },
     {
       "name": "simp/simplib",
       "version_requirement": ">= 1.0.0"
