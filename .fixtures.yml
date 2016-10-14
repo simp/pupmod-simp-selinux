@@ -1,10 +1,14 @@
 ---
 fixtures:
   repositories:
-    compliance_markup: "https://github.com/simp/pupmod-simp-compliance_markup"
-    simplib: "https://github.com/simp/pupmod-simp-simplib"
+    compliance_markup:
+      repo: https://github.com/simp/pupmod-simp-compliance_markup
+      branch: 5.X
+    simplib:
+      repo: https://github.com/simp/pupmod-simp-simplib
+      branch: 5.X
     stdlib:
-      repo: "https://github.com/simp/puppetlabs-stdlib"
-      branch: "simp-master"
+      branch: 5.X
+      repo: https://github.com/simp/puppetlabs-stdlib
   symlinks:
     selinux: "#{source_dir}"
