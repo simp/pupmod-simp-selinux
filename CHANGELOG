@@ -1,3 +1,6 @@
+* Mon Nov 21 2016 SIMP-Team <https://groups.google.com/forum/#!forum/simp> 2.0.0-0
+- Updated module for compliance markup API v1.0.0 compatibility.
+
 * Wed Aug 31 2016 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 1.0.3-0
 - Ensure that policycoreutils-python is only installed if not installed
   elsewhere. This deconflicts with various hotfixes that were needed in other
