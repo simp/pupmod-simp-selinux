@@ -34,7 +34,6 @@ class selinux (
   validate_bool($manage_utils_package)
   validate_array_member($ensure,[true,false,'enforcing','permissive','disabled'])
 
-  compliance_map()
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
 
