@@ -1,39 +1,26 @@
+# Manage SELinux state
 #
-# Class: selinux
-#
-# Parameters
-#
-# $ensure
-# Type: String
-# Default: 'enforcing'
+# @param ensure
 #   The state that SELinux should be in.
 #   Valid values are: true, false, 'enforcing', 'permissive', 'disabled'.
 #   Since you are calling this class, we assume that you want to enforce.
 #
-# $mode
-# Type: String
-# Default: 'targeted'
+# @param mode
 #   The SELinux type you want to enforce.
 #   Valid values are: 'targeted', 'mls'
 #   Note, it is quite possible that 'mls' will render your system inoperable.
 #
-# $manage_utils_package
-# Type: Boolean
-# Default: true
+# @param manage_utils_package
 #   If true, ensure policycoreutils-python is installed. This is a supplemental
 #   package that is required by semanage.
 #
 # Additional functionality for SELinux support.
 #
 class selinux (
-  $ensure               = 'enforcing',
-  $manage_utils_package = true,
-  $mode                 = 'targeted'
+  Variant[Boolean,Enum['enforcing','permissive','disabled']] $ensure = 'enforcing',
+  Boolean                $manage_utils_package = true,
+  Enum['targeted','mls'] $mode                 = 'targeted'
 ) {
-  validate_array_member($mode,['targeted','mls'])
-  validate_bool($manage_utils_package)
-  validate_array_member($ensure,[true,false,'enforcing','permissive','disabled'])
-
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
 
