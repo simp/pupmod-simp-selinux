@@ -1,3 +1,6 @@
+* Tue Dec 20 2016 Nick Miller <nick.miller@onyxpoint.com> 2.0.1-0
+- Strongly typed module
+
 * Mon Nov 21 2016 SIMP-Team <https://groups.google.com/forum/#!forum/simp> 2.0.0-0
 - Updated module for compliance markup API v1.0.0 compatibility.
 
