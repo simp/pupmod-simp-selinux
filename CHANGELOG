@@ -1,3 +1,6 @@
+* Tue Mar 28 2016 Nick Miller <nick.miller@onyxpoint.com> 2.0.2-0
+- Respects simp_options::selinux
+
 * Tue Dec 20 2016 Nick Miller <nick.miller@onyxpoint.com> 2.0.1-0
 - Strongly typed module
 
