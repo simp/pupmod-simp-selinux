@@ -1,28 +1,30 @@
-# Manage SELinux state
+# Manage active SELinux state and state after a reboot
 #
 # @param ensure
 #   The state that SELinux should be in.
-#   Valid values are: true, false, 'enforcing', 'permissive', 'disabled'.
 #   Since you are calling this class, we assume that you want to enforce.
 #
 # @param mode
 #   The SELinux type you want to enforce.
-#   Valid values are: 'targeted', 'mls'
 #   Note, it is quite possible that 'mls' will render your system inoperable.
 #
 # @param manage_utils_package
 #   If true, ensure policycoreutils-python is installed. This is a supplemental
 #   package that is required by semanage.
 #
-# Additional functionality for SELinux support.
-#
 class selinux (
-  Variant[Boolean,Enum['enforcing','permissive','disabled']] $ensure = 'enforcing',
+  Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
   Boolean                $manage_utils_package = true,
   Enum['targeted','mls'] $mode                 = 'targeted'
 ) {
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
+
+  $_state = $ensure ? {
+    true    => 'enforcing',
+    false   => 'disabled',
+    default => $ensure
+  }
 
   file { '/etc/selinux/config':
     ensure  => 'file',
@@ -32,7 +34,11 @@ class selinux (
     content => template('selinux/sysconfig.erb')
   }
 
+  $utils_packages = [
+    'checkpolicy',
+    'policycoreutils-python'
+  ]
   if $manage_utils_package {
-    ensure_resource('package', ['checkpolicy','policycoreutils-python'], { 'ensure' => 'latest' })
+    ensure_resource('package', $utils_packages, { 'ensure' => 'latest' })
   }
 }

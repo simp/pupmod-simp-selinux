@@ -1,3 +1,7 @@
+* Tue Mar 28 2017 Nick Miller <nick.miller@onyxpoint.com> 2.0.2-0
+- Defaulted selinux::ensure to the selinux catalyst for better control
+  of selinux enforcement.
+
 * Tue Dec 20 2016 Nick Miller <nick.miller@onyxpoint.com> 2.0.1-0
 - Strongly typed module
 
