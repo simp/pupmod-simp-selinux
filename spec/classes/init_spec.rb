@@ -25,6 +25,7 @@ describe 'selinux' do
             ) }
           it { is_expected.to contain_package('checkpolicy').with(:ensure => 'latest') }
           it { is_expected.to contain_package('policycoreutils-python').with(:ensure => 'latest') }
+          it { is_expected.to contain_reboot_notify('selinux') }
         end
 
         context 'with ensure set to a non-boolean' do
@@ -43,6 +44,7 @@ describe 'selinux' do
             SELINUXTYPE=targeted
             EOF
             ) }
+            it { is_expected.to contain_reboot_notify('selinux') }
         end
 
         context 'with mode set' do
@@ -61,11 +63,13 @@ describe 'selinux' do
             SELINUXTYPE=mls
             EOF
             ) }
+            it { is_expected.to contain_reboot_notify('selinux') }
         end
 
         context 'with manage_utils_package => false' do
           let(:params) {{:manage_utils_package => false}}
           it { is_expected.to_not contain_package('policycoreutils-python') }
+          it { is_expected.to contain_reboot_notify('selinux') }
         end
 
       end
