@@ -13,13 +13,13 @@ describe 'selinux' do
           it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
             # This file controls the state of SELinux on the system.
             # SELINUX= can take one of these three values:
-            #	enforcing - SELinux security policy is enforced.
-            #	permissive - SELinux prints warnings instead of enforcing.
-            #	disabled - SELinux is fully disabled.
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
             SELINUX=enforcing
             # SELINUXTYPE= type of policy in use. Possible values are:
-            #	targeted - Only targeted network daemons are protected.
-            #	strict - Full SELinux protection.
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
             SELINUXTYPE=targeted
             EOF
             ) }
@@ -34,13 +34,13 @@ describe 'selinux' do
           it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
             # This file controls the state of SELinux on the system.
             # SELINUX= can take one of these three values:
-            #	enforcing - SELinux security policy is enforced.
-            #	permissive - SELinux prints warnings instead of enforcing.
-            #	disabled - SELinux is fully disabled.
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
             SELINUX=permissive
             # SELINUXTYPE= type of policy in use. Possible values are:
-            #	targeted - Only targeted network daemons are protected.
-            #	strict - Full SELinux protection.
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
             SELINUXTYPE=targeted
             EOF
             ) }
@@ -53,13 +53,13 @@ describe 'selinux' do
           it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
             # This file controls the state of SELinux on the system.
             # SELINUX= can take one of these three values:
-            #	enforcing - SELinux security policy is enforced.
-            #	permissive - SELinux prints warnings instead of enforcing.
-            #	disabled - SELinux is fully disabled.
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
             SELINUX=enforcing
             # SELINUXTYPE= type of policy in use. Possible values are:
-            #	targeted - Only targeted network daemons are protected.
-            #	strict - Full SELinux protection.
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
             SELINUXTYPE=mls
             EOF
             ) }
@@ -71,7 +71,6 @@ describe 'selinux' do
           it { is_expected.to_not contain_package('policycoreutils-python') }
           it { is_expected.to contain_reboot_notify('selinux') }
         end
-
       end
     end
   end
