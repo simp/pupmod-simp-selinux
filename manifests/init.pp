@@ -20,6 +20,8 @@ class selinux (
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
 
+  reboot_notify { 'selinux': subscribe => Selinux_state['set_selinux_state'] }
+
   $_state = $ensure ? {
     true    => 'enforcing',
     false   => 'disabled',

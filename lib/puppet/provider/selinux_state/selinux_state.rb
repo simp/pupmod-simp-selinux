@@ -8,11 +8,15 @@ Puppet::Type.type(:selinux_state).provide(:selinux_state) do
   end
 
   def ensure=(should)
-    case should
-      when 'enforcing'
-        setenforce "1"
-      else
-        setenforce "0"
+    # You can't enforce/disable selinux if it's currently disabled
+    # so don't try.
+    if String(Facter.value(:selinux)) != 'false'
+      case should
+        when 'enforcing'
+          setenforce "1"
+        else
+          setenforce "0"
+      end
     end
   end
 end
