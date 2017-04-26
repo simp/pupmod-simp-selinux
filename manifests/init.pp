@@ -15,8 +15,11 @@
 class selinux (
   Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
   Boolean                $manage_utils_package = true,
+  String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   Enum['targeted','mls'] $mode                 = 'targeted'
 ) {
+
+  include 'selinux::mcstrans'
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
 
@@ -38,9 +41,10 @@ class selinux (
 
   $utils_packages = [
     'checkpolicy',
-    'policycoreutils-python'
+    'policycoreutils-python',
   ]
   if $manage_utils_package {
-    ensure_resource('package', $utils_packages, { 'ensure' => 'latest' })
+    ensure_resource('package', $utils_packages, { 'ensure' => $package_ensure })
   }
+
 }

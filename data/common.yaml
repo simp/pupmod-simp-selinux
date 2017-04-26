@@ -1,0 +1,5 @@
+---
+selinux::mcstrans::manage_package: true
+selinux::mcstrans::manage_service: true
+selinux::mcstrans::package_name: mcstrans
+selinux::mcstrans::manage_restorecond: false

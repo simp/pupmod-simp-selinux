@@ -23,8 +23,8 @@ describe 'selinux' do
             SELINUXTYPE=targeted
             EOF
             ) }
-          it { is_expected.to contain_package('checkpolicy').with(:ensure => 'latest') }
-          it { is_expected.to contain_package('policycoreutils-python').with(:ensure => 'latest') }
+          it { is_expected.to contain_package('checkpolicy').with(:ensure => 'installed') }
+          it { is_expected.to contain_package('policycoreutils-python').with(:ensure => 'installed') }
           it { is_expected.to contain_reboot_notify('selinux') }
         end
 
