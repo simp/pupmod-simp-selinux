@@ -1,0 +1,2 @@
+---
+selinux::mcstrans::service_name: mcstransd

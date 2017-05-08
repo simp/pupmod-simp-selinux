@@ -1,0 +1,3 @@
+---
+selinux::mcstrans::service_name: mcstrans
+selinux::mcstrans::manage_restorecond: true

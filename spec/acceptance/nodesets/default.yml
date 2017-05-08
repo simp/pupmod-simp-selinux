@@ -7,17 +7,13 @@ HOSTS:
     platform:   el-7-x86_64
     box:        centos/7
     hypervisor: vagrant
-    vagrant_memsize: 2048
-    yum_repos:
-      simp:
-        baseurl: https://packagecloud.io/simp-project/6_X_Alpha_Dependencies/el/7/$basearch
-        gpgkeys:
-          - https://raw.githubusercontent.com/NationalSecurityAgency/SIMP/master/GPGKEYS/RPM-GPG-KEY-SIMP
-      epel:
-        mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
-        gpgkeys:
-          - https://getfedora.org/static/352C64E5.txt
-
+  server6:
+    roles:
+      - server
+      - el6
+    platform:   el-6-x86_64
+    box:        centos/6
+    hypervisor: vagrant
 CONFIG:
   log_level: verbose
   type:      aio
