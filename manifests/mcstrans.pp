@@ -23,6 +23,7 @@ class selinux::mcstrans (
 
   if $manage_service {
     service { $service_name:
+      ensure     => 'running',
       enable     => true,
       hasrestart => true,
       hasstatus  => false,
