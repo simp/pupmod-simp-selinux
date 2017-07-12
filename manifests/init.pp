@@ -36,10 +36,6 @@
 # @param package_ensure The ensure status of packages to be installed
 #
 class selinux (
-  Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
-  Boolean                $manage_utils_package = true,
-  String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
-  Enum['targeted','mls'] $mode                 = 'targeted',
   # defaults are in module data
   Boolean $manage_mcstrans_package,
   Boolean $manage_mcstrans_service,
@@ -48,6 +44,10 @@ class selinux (
   Boolean $manage_restorecond_package,
   Boolean $manage_restorecond_service,
   String  $restorecond_package_name,
+  Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
+  Boolean                $manage_utils_package = true,
+  String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  Enum['targeted','mls'] $mode                 = 'targeted'
 ) {
 
   selinux_state { 'set_selinux_state': ensure => $ensure }
