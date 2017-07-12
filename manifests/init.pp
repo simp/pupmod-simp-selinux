@@ -12,25 +12,25 @@
 #   If true, ensure policycoreutils-python is installed. This is a supplemental
 #   package that is required by semanage.
 #
-# @param manage_mcstrans_package 
+# @param manage_mcstrans_package
 #   Manage the `mcstrans` package.
 #
 # @param manage_mcstrans_service
 #   Manage the `mcstrans` service.
 #
-# @param mcstrans_service_name 
+# @param mcstrans_service_name
 #  The `mcstrans` service name.
 #
-# @param mcstrans_package_name 
+# @param mcstrans_package_name
 #  The `mcstrans` package name.
 #
-# @param manage_restorecond_package 
+# @param manage_restorecond_package
 #   Manage the `restorecond` package.
 #
-# @param manage_restorecond_service 
+# @param manage_restorecond_service
 #   Manage the `restorecond` service.
 #
-# @param restorecond_package_name 
+# @param restorecond_package_name
 #   The `restorecond` package name.
 #
 # @param package_ensure The ensure status of packages to be installed
@@ -93,7 +93,7 @@ class selinux (
     # Final state after reboot will be correct.
     $_aux_service_ensure = 'running'
   }
-  
+
   if $manage_mcstrans_service {
     service { $mcstrans_service_name:
       ensure     => $_aux_service_ensure,
