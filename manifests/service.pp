@@ -19,7 +19,7 @@ class selinux::service {
       enable     => true,
       hasrestart => true,
       hasstatus  => false,
-      require    => Package[$::selinux::mcstrans_package_name]
+      require    => Class['selinux::install']
     }
   }
 
@@ -29,7 +29,7 @@ class selinux::service {
       enable     => true,
       hasrestart => true,
       hasstatus  => false,
-      require    => Package[$::selinux::restorecond_package_name]
+      require    => Class['selinux::install']
     }
   }
 }

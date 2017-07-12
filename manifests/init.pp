@@ -56,9 +56,9 @@ class selinux (
     default => $ensure
   }
 
-  include 'selinux::install'
-  include 'selinux::config'
-  include 'selinux::service'
+  contain 'selinux::install'
+  contain 'selinux::config'
+  contain 'selinux::service'
 
   Class['selinux::install'] ->
   Class['selinux::config'] ~>
