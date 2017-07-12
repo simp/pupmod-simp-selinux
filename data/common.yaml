@@ -1,5 +1,6 @@
 ---
-selinux::mcstrans::manage_package: true
-selinux::mcstrans::manage_service: true
-selinux::mcstrans::package_name: mcstrans
-selinux::mcstrans::manage_restorecond: false
+selinux::manage_mcstrans_package: true
+selinux::manage_mcstrans_service: true
+selinux::mcstrans_package_name: mcstrans
+
+selinux::restorecond_service_name: restorecond

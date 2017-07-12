@@ -1,3 +1,6 @@
 ---
-selinux::mcstrans::service_name: mcstrans
-selinux::mcstrans::manage_restorecond: true
+selinux::mcstrans_service_name: mcstrans
+
+selinux::manage_restorecond_package: true
+selinux::manage_restorecond_service: true
+selinux::restorecond_package_name: policycoreutils
