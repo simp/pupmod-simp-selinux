@@ -50,67 +50,17 @@ class selinux (
   Enum['targeted','mls'] $mode                 = 'targeted'
 ) {
 
-  selinux_state { 'set_selinux_state': ensure => $ensure }
-
-  reboot_notify { 'selinux': subscribe => Selinux_state['set_selinux_state'] }
-
-  $_state = $ensure ? {
+  $state = $ensure ? {
     true    => 'enforcing',
     false   => 'disabled',
     default => $ensure
   }
 
-  file { '/etc/selinux/config':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('selinux/sysconfig.erb')
-  }
+  include 'selinux::install'
+  include 'selinux::config'
+  include 'selinux::service'
 
-  $utils_packages = [
-    'checkpolicy',
-    'policycoreutils-python',
-  ]
-
-  if $manage_utils_package {
-    ensure_resource('package', $utils_packages, { 'ensure' => $package_ensure })
-  }
-
-  if $manage_mcstrans_package {
-    package { $mcstrans_package_name: ensure => $package_ensure }
-  }
-
-  if $manage_restorecond_package {
-    package { $restorecond_package_name: ensure => $package_ensure }
-  }
-
-  if ($_state == 'disabled') or !$facts['os']['selinux']['enabled'] {
-    $_aux_service_ensure = 'stopped'
-  }
-  else {
-    # An ensure of 'running' requires selinux to be enabled.
-    # Final state after reboot will be correct.
-    $_aux_service_ensure = 'running'
-  }
-
-  if $manage_mcstrans_service {
-    service { $mcstrans_service_name:
-      ensure     => $_aux_service_ensure,
-      enable     => true,
-      hasrestart => true,
-      hasstatus  => false,
-      require    => Package[$mcstrans_package_name]
-    }
-  }
-
-  if $manage_restorecond_package {
-    service { 'restorecond':
-      ensure     => $_aux_service_ensure,
-      enable     => true,
-      hasrestart => true,
-      hasstatus  => false,
-      require    => Package[$restorecond_package_name]
-    }
-  }
+  Class['selinux::install'] ->
+  Class['selinux::config'] ~>
+  Class['selinux::service']
 }
