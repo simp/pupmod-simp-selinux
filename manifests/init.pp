@@ -37,13 +37,13 @@
 #
 class selinux (
   # defaults are in module data
-  Boolean $manage_mcstrans_package,
-  Boolean $manage_mcstrans_service,
-  String  $mcstrans_package_name,
-  String  $mcstrans_service_name,
-  Boolean $manage_restorecond_package,
-  Boolean $manage_restorecond_service,
-  String  $restorecond_package_name,
+  Boolean                $manage_mcstrans_package,
+  Boolean                $manage_mcstrans_service,
+  String                 $mcstrans_package_name,
+  String                 $mcstrans_service_name,
+  Boolean                $manage_restorecond_package,
+  Boolean                $manage_restorecond_service,
+  String                 $restorecond_package_name,
   Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
   Boolean                $manage_utils_package = true,
   String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
