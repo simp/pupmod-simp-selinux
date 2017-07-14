@@ -12,39 +12,55 @@
 #   If true, ensure policycoreutils-python is installed. This is a supplemental
 #   package that is required by semanage.
 #
+# @param manage_mcstrans_package
+#   Manage the `mcstrans` package.
+#
+# @param manage_mcstrans_service
+#   Manage the `mcstrans` service.
+#
+# @param mcstrans_service_name
+#  The `mcstrans` service name.
+#
+# @param mcstrans_package_name
+#  The `mcstrans` package name.
+#
+# @param manage_restorecond_package
+#   Manage the `restorecond` package.
+#
+# @param manage_restorecond_service
+#   Manage the `restorecond` service.
+#
+# @param restorecond_package_name
+#   The `restorecond` package name.
+#
+# @param package_ensure The ensure status of packages to be installed
+#
 class selinux (
+  # defaults are in module data
+  Boolean                $manage_mcstrans_package,
+  Boolean                $manage_mcstrans_service,
+  String                 $mcstrans_package_name,
+  String                 $mcstrans_service_name,
+  Boolean                $manage_restorecond_package,
+  Boolean                $manage_restorecond_service,
+  String                 $restorecond_package_name,
   Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
   Boolean                $manage_utils_package = true,
   String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   Enum['targeted','mls'] $mode                 = 'targeted'
 ) {
 
-  include 'selinux::mcstrans'
-
-  selinux_state { 'set_selinux_state': ensure => $ensure }
-
-  reboot_notify { 'selinux': subscribe => Selinux_state['set_selinux_state'] }
-
-  $_state = $ensure ? {
+  $state = $ensure ? {
     true    => 'enforcing',
     false   => 'disabled',
     default => $ensure
   }
 
-  file { '/etc/selinux/config':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('selinux/sysconfig.erb')
-  }
+  contain 'selinux::install'
+  contain 'selinux::config'
+  contain 'selinux::service'
 
-  $utils_packages = [
-    'checkpolicy',
-    'policycoreutils-python',
-  ]
-  if $manage_utils_package {
-    ensure_resource('package', $utils_packages, { 'ensure' => $package_ensure })
-  }
-
+  Class['selinux::install']
+  -> Class['selinux::config']
+  ~> Class['selinux::service']
 }
