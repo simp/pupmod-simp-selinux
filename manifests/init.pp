@@ -60,7 +60,7 @@ class selinux (
   contain 'selinux::config'
   contain 'selinux::service'
 
-  Class['selinux::install'] ->
-  Class['selinux::config'] ~>
-  Class['selinux::service']
+  Class['selinux::install']
+  -> Class['selinux::config']
+  ~> Class['selinux::service']
 }
