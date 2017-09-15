@@ -1,3 +1,6 @@
+* Fri Sep 15 2017 Nick Miller <nick.miller@gmail.com> - 2.1.1-0
+- Add message to reboot notify
+
 * Wed Jul 12 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 2.1.0-0
 - Rework manifests to ensure mcstrans and restorecond services are not
   running when selinux is disabled.

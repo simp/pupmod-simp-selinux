@@ -3,10 +3,16 @@
 class selinux::config {
   assert_private()
 
-  selinux_state { 'set_selinux_state': ensure => $::selinux::ensure }
+  selinux_state { 'set_selinux_state':
+    ensure => $::selinux::ensure
+  }
 
-  reboot_notify { 'selinux': subscribe => Selinux_state['set_selinux_state'] }
+  reboot_notify { 'selinux':
+    reason    => 'A reboot is required to completely modify selinux state',
+    subscribe => Selinux_state['set_selinux_state']
+  }
 
+  # These vars are used in the template below
   $_state = $::selinux::state
   $_mode = $::selinux::mode
 
