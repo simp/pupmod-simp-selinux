@@ -22,6 +22,10 @@ describe 'selinux class' do
       it 'should be idempotent' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
+
+      describe file('/.autorelabel') do
+        it { should_not exist }
+      end
     end
 
     context 'with simp_options::selinux: false' do
@@ -50,6 +54,9 @@ describe 'selinux class' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
 
+      describe file('/.autorelabel') do
+        it { should_not exist }
+      end
     end
 
     context 'when re-enabling selinux after being disabled' do
@@ -66,6 +73,10 @@ describe 'selinux class' do
         expect(status.output).to match(/Disabled/)
       end
 
+      describe file('/.autorelabel') do
+        it { should exist }
+      end
+
       it 'should be enforcing after reboot' do
         host.reboot
 
@@ -78,6 +89,10 @@ describe 'selinux class' do
         # to happen
         apply_manifest_on(host, manifest, :catch_failures => true)
         apply_manifest_on(host, manifest, :catch_changes => true)
+      end
+
+      describe file('/.autorelabel') do
+        it { should_not exist }
       end
     end
   end
