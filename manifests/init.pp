@@ -8,6 +8,8 @@
 #   The SELinux type you want to enforce.
 #   Note, it is quite possible that 'mls' will render your system inoperable.
 #
+# @param autorelabel Automatically relabel the filesystem if needed
+#
 # @param manage_utils_package
 #   If true, ensure policycoreutils-python is installed. This is a supplemental
 #   package that is required by semanage.
@@ -45,6 +47,7 @@ class selinux (
   Boolean                $manage_restorecond_service,
   String                 $restorecond_package_name,
   Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
+  Boolean                $autorelabel          = false,
   Boolean                $manage_utils_package = true,
   String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
   Enum['targeted','mls'] $mode                 = 'targeted'

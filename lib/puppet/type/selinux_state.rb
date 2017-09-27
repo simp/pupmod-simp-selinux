@@ -1,3 +1,5 @@
+require 'puppet/parameter/boolean'
+
 Puppet::Type.newtype(:selinux_state) do
   @doc = "Toggle the enforcement of selinux"
 
@@ -6,7 +8,15 @@ Puppet::Type.newtype(:selinux_state) do
     desc "An arbitrary, but unique, name for the resource."
   end
 
+  newparam(:autorelabel, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+    desc 'Automatically determine if the filesystem needs to be relabeled.
+      Enforcing > Permissive > Disabled
+    Going up the right requires relabeling.'
+    defaultto 'true'
+  end
+
   newproperty(:ensure) do
+    desc 'Set the SELinux state on the system'
     defaultto(:enforcing)
     newvalues(:false,:true,:disabled,:permissive,:enforcing)
 

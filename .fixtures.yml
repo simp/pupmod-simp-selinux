@@ -3,5 +3,3 @@ fixtures:
   repositories:
     simplib: https://github.com/simp/pupmod-simp-simplib
     stdlib: https://github.com/simp/puppetlabs-stdlib
-  symlinks:
-    selinux: "#{source_dir}"
