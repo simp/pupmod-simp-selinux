@@ -4,7 +4,8 @@ class selinux::config {
   assert_private()
 
   selinux_state { 'set_selinux_state':
-    ensure => $::selinux::ensure
+    ensure      => $::selinux::ensure,
+    autorelabel => $::selinux::autorelabel
   }
 
   $_enabling  = !$facts['os']['selinux']['enabled'] and member(['enforcing','permissive'],$::selinux::state)
