@@ -56,14 +56,14 @@ describe Puppet::Type.type(:selinux_state).provider(:selinux_state) do
       end
     end
 
-    context 'disabled -> enforcing'do
+    context 'disabled -> enforcing' do
       it 'needs relabeling' do
         provider.stubs(:ensure).returns 'disabled'
         expect(provider.relabel?('enforcing')).to be_truthy
       end
     end
 
-    context 'disabled -> permissive'do
+    context 'disabled -> permissive' do
       it 'needs relabeling' do
         provider.stubs(:ensure).returns 'disabled'
         expect(provider.relabel?('permissive')).to be_truthy
