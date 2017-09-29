@@ -14,9 +14,7 @@ describe 'selinux' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) do
-        test_facts = os_facts.dup
-        test_facts[:os][:selinux] = selinux_base_facts
-        test_facts
+        os_facts
       end
 
       context 'with default parameters' do
@@ -148,63 +146,57 @@ describe 'selinux' do
         end
         context 'enabled -> disabled' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: true)
-            test_facts
+            os_facts
           end
           let(:params) {{ ensure: 'disabled' }}
           it { is_expected.to create_reboot_notify('selinux') }
         end
         context 'enabled -> false' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: true)
-            test_facts
+            os_facts
           end
           let(:params) {{ ensure: false }}
           it { is_expected.to create_reboot_notify('selinux') }
         end
         context 'enabled -> permissive' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: true)
-            test_facts
+            os_facts
           end
           let(:params) {{ ensure: 'permissive' }}
           it { is_expected.not_to create_reboot_notify('selinux') }
         end
         context 'disabled -> disabled' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: false)
-            test_facts
+            os_facts = os_facts.dup
+            os_facts[:selinux] = false
+            os_facts
           end
           let(:params) {{ ensure: 'disabled' }}
           it { is_expected.not_to create_reboot_notify('selinux') }
         end
         context 'disabled -> enabled' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: false)
-            test_facts
+            os_facts = os_facts.dup
+            os_facts[:selinux] = false
+            os_facts
           end
           let(:params) {{ ensure: 'enforcing' }}
           it { is_expected.to create_reboot_notify('selinux') }
         end
         context 'disabled -> true' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: false)
-            test_facts
+            os_facts = os_facts.dup
+            os_facts[:selinux] = false
+            os_facts
           end
           let(:params) {{ ensure: true }}
           it { is_expected.to create_reboot_notify('selinux') }
         end
         context 'disabled -> permissive' do
           let(:facts) do
-            test_facts = os_facts.dup
-            test_facts[:os][:selinux] = selinux_base_facts.merge(enabled: false)
-            test_facts
+            os_facts = os_facts.dup
+            os_facts[:selinux] = false
+            os_facts
           end
           let(:params) {{ ensure: 'permissive' }}
           it { is_expected.to create_reboot_notify('selinux') }

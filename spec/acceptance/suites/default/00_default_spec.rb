@@ -23,9 +23,10 @@ describe 'selinux class' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
 
-      describe file('/.autorelabel') do
-        it { should_not exist }
-      end
+      # This test will be removed when the system removes this file on it's own
+      # describe file('/.autorelabel') do
+      #   it { should_not exist }
+      # end
     end
 
     context 'with simp_options::selinux: false' do
@@ -92,9 +93,10 @@ describe 'selinux class' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
 
-      describe file('/.autorelabel') do
-        it { should_not exist }
-      end
+      # This test will be removed when the system removes this file on it's own
+      # describe file('/.autorelabel') do
+      #   it { should_not exist }
+      # end
     end
   end
 end
