@@ -4,7 +4,7 @@
 class selinux::service {
   assert_private()
 
-  if ($::selinux::state == 'disabled') or !$facts['os']['selinux']['enabled'] {
+  if ($::selinux::state == 'disabled') or !$facts['selinux'] {
     $_aux_service_ensure = 'stopped'
   }
   else {

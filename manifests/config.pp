@@ -8,8 +8,8 @@ class selinux::config {
     autorelabel => $::selinux::autorelabel
   }
 
-  $_enabling  = !$facts['os']['selinux']['enabled'] and member(['enforcing','permissive'],$::selinux::state)
-  $_disabling = $facts['os']['selinux']['enabled'] and !member(['enforcing','permissive'],$::selinux::state)
+  $_enabling  = !$facts['selinux'] and member(['enforcing','permissive'], $::selinux::state)
+  $_disabling = $facts['selinux'] and !member(['enforcing','permissive'], $::selinux::state)
 
   if $_enabling or $_disabling {
     reboot_notify { 'selinux':
