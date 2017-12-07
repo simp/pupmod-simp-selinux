@@ -1,3 +1,6 @@
+* Thu Dec 07 2017 Steven Pritchard <steven.pritchard@onyxpoint.com> - 2.1.2-0
+- Update README.md from puppet strings
+
 * Fri Sep 15 2017 Nick Miller <nick.miller@gmail.com> - 2.1.1-0
 - Add message to reboot notify
 
