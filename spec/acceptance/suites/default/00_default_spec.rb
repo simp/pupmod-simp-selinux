@@ -12,11 +12,16 @@ describe 'selinux class' do
       let(:hieradata) {{
         'simp_options::selinux' => true,
       }}
+
       it 'should work with no errors and set selinux enforcing' do
         set_hieradata_on(host, hieradata)
         apply_manifest_on(host, manifest, :catch_failures => true)
+
         result = on(host, 'getenforce')
         expect(result.output).to match(/Enforcing/)
+
+        result = on(host, %{source /etc/selinux/config && echo $SELINUX})
+        expect(result.output.strip).to be == 'enforcing'
       end
 
       it 'should be idempotent' do
@@ -54,7 +59,7 @@ describe 'selinux class' do
       it 'should be idempotent' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
-      
+
       # This test will be removed when the system removes this file on it's own
       # describe file('/.autorelabel') do
       #   it { should_not exist }
