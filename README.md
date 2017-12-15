@@ -68,39 +68,39 @@ The SELinux type you want to enforce. Note, it is quite possible that 'mls' will
 
 Automatically relabel the filesystem if needed
 
-* **`manage\_utils\_package`** (`Boolean`) *(defaults to: `true`)*
+* **`manage_utils_package`** (`Boolean`) *(defaults to: `true`)*
 
 If true, ensure policycoreutils-python is installed. This is a supplemental package that is required by semanage.
 
-* **`manage\_mcstrans\_package`** (`Boolean`)
+* **`manage_mcstrans_package`** (`Boolean`)
 
 Manage the `mcstrans` package.
 
-* **`manage\_mcstrans\_service`** (`Boolean`)
+* **`manage_mcstrans_service`** (`Boolean`)
 
 Manage the `mcstrans` service.
 
-* **`mcstrans\_service\_name`** (`String`)
+* **`mcstrans_service_name`** (`String`)
 
 The `mcstrans` service name.
 
-* **`mcstrans\_package\_name`** (`String`)
+* **`mcstrans_package_name`** (`String`)
 
 The `mcstrans` package name.
 
-* **`manage\_restorecond\_package`** (`Boolean`)
+* **`manage_restorecond_package`** (`Boolean`)
 
 Manage the `restorecond` package.
 
-* **`manage\_restorecond\_service`** (`Boolean`)
+* **`manage_restorecond_service`** (`Boolean`)
 
 Manage the `restorecond` service.
 
-* **`restorecond\_package\_name`** (`String`)
+* **`restorecond_package_name`** (`String`)
 
 The `restorecond` package name.
 
-* **`package\_ensure`** (`String`) *(defaults to: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' })`)*
+* **`package_ensure`** (`String`) *(defaults to: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' })`)*
 
 The ensure status of packages to be installed
 
