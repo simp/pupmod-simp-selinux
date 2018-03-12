@@ -9,7 +9,7 @@ describe Puppet::Type.type(:selinux_state).provider(:selinux_state) do
     )
   }
   let(:provider) {
-    resource.dup.provider
+    Puppet::Type.type(:selinux_state).provider(:selinux_state).new(resource)
   }
 
 
