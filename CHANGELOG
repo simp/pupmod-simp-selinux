@@ -1,4 +1,8 @@
-* Mon Apr 23 2018 Jeanne Greulich <jeanne.greulich@onyxpoint.com> -2.2.0-0
+* Sun Mar 25 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.3.0-0
+- Add support for OEL and Puppet 5
+- Fix bug with enforcement switching in the native type
+
+* Mon Apr 23 2018 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 2.2.0-0
 - simp_options::selinux was supposed to indicate if the selinux module should
   be included. Class include lists set in the simp module would include selinux  reguardless
   of this setting.  This option was also being used to set the state of selinux.

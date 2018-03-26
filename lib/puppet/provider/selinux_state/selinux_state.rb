@@ -8,8 +8,8 @@ Puppet::Type.type(:selinux_state).provide(:selinux_state) do
     on_cases  = ['enforcing',:true]
     off_cases = ['permissive','disabled',:false]
 
-    return true if should == 'permissive' && self.ensure == 'disabled'
-    return(on_cases.include? should) && (off_cases.include? self.ensure)
+    return true if (should == 'permissive') && (self.ensure == 'disabled')
+    return on_cases.include?(should) && off_cases.include?(self.ensure)
   end
 
   def ensure
@@ -21,7 +21,7 @@ Puppet::Type.type(:selinux_state).provide(:selinux_state) do
     # You can't enforce/disable selinux if it's currently disabled
     # so don't try.
     if String(Facter.value(:selinux)) != 'false'
-      case should
+      case String(should)
         when 'enforcing'
           setenforce '1'
         else
@@ -30,7 +30,7 @@ Puppet::Type.type(:selinux_state).provide(:selinux_state) do
     end
 
     # If we're going from off to on, we should touch /.autorelabel
-    if resource[:autorelabel] && relabel?(should)
+    if resource[:autorelabel] && relabel?(String(should))
       touch '/.autorelabel'
     end
   end
