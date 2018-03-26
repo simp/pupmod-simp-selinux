@@ -213,7 +213,7 @@ acceptance-puppet5-default:
   tags:
     - beaker
   <<: *cache_bundler
-  <<: *setup_env_beaker
+  <<: *setup_bundler_env
   script:
     - bundle exec rake beaker:suites[default,puppet5]
 
@@ -222,7 +222,7 @@ acceptance-fips-puppet5-default:
   tags:
     - beaker
   <<: *cache_bundler
-  <<: *setup_env_beaker
+  <<: *setup_bundler_env
   variables:
     BEAKER_fips: 'yes'
   script:
@@ -233,7 +233,7 @@ acceptance-oel-puppet5-default:
   tags:
     - beaker
   <<: *cache_bundler
-  <<: *setup_env_beaker
+  <<: *setup_bundler_env
   variables:
     PUPPET_VERSION: '5.4'
   script:
