@@ -46,7 +46,7 @@ class selinux (
   Boolean                $manage_restorecond_package,
   Boolean                $manage_restorecond_service,
   String                 $restorecond_package_name,
-  Selinux::State         $ensure               = simplib::lookup('simp_options::selinux', { 'default_value' => true }),
+  Selinux::State         $ensure               = 'enforcing',
   Boolean                $autorelabel          = false,
   Boolean                $manage_utils_package = true,
   String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
