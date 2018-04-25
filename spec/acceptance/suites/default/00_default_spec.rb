@@ -10,7 +10,7 @@ describe 'selinux class' do
 
     context 'default parameters' do
       let(:hieradata) {{
-        'simp_options::selinux' => true,
+        'selinux::ensure' => true,
       }}
 
       it 'should work with no errors and set selinux enforcing' do
@@ -36,7 +36,7 @@ describe 'selinux class' do
 
     context 'with simp_options::selinux: false' do
       let(:hieradata) {{
-        'simp_options::selinux' => false,
+        'selinux::ensure' => false,
       }}
       it 'should disable selinux, set the current state to permissive, and require reboot' do
         set_hieradata_on(host, hieradata)
@@ -68,7 +68,7 @@ describe 'selinux class' do
 
     context 'when re-enabling selinux after being disabled' do
       let(:hieradata) {{
-        'simp_options::selinux' => true,
+        'selinux::ensure' => true,
       }}
       it 'should work with no errors and set selinux enforcing' do
         set_hieradata_on(host, hieradata)

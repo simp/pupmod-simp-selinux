@@ -56,7 +56,7 @@ This module requires the following:
 
 #### Parameters
 
-* **`ensure`** (`Selinux::State`) *(defaults to: `simplib::lookup('simp_options::selinux', { 'default_value' => true })`)*
+* **`ensure`** (`Selinux::State`) *(defaults to: 'enforcing')*
 
 The state that SELinux should be in. Since you are calling this class, we assume that you want to enforce.
 
