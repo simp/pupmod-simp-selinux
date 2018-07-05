@@ -33,7 +33,6 @@ describe 'selinux' do
           EOF
           ) }
         it { is_expected.to contain_package('checkpolicy').with(ensure: 'installed') }
-        it { is_expected.to contain_package('policycoreutils-python').with(ensure: 'installed') }
         it { is_expected.to contain_package('mcstrans').with(ensure: 'installed') }
 
         if os_facts[:os][:release][:major].to_i >= 7
@@ -135,7 +134,7 @@ describe 'selinux' do
 
       context 'with manage_utils_package => false' do
         let(:params) {{ manage_utils_package: false }}
-        it { is_expected.to_not contain_package('policycoreutils-python') }
+        it { is_expected.to_not contain_package('checkpolicy') }
       end
 
       context 'notifying user of reboots' do
