@@ -8,6 +8,20 @@ describe 'selinux class' do
     let(:manifest) { "include 'selinux'" }
     let(:host_fqdn) { fact_on(host, 'fqdn') }
 
+    context 'prep' do
+      it 'should enable SELinux and set it to permissive' do
+        enable_selinux_manifest = <<-EOM
+          class { 'selinux':
+            ensure => 'permissive',
+            autorelabel => true
+          }
+        EOM
+
+        apply_manifest_on(host, enable_selinux_manifest)
+        host.reboot
+      end
+    end
+
     context 'default parameters' do
       let(:hieradata) {{
         'selinux::ensure' => true,
@@ -27,11 +41,6 @@ describe 'selinux class' do
       it 'should be idempotent' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
-
-      # This test will be removed when the system removes this file on it's own
-      # describe file('/.autorelabel') do
-      #   it { should_not exist }
-      # end
     end
 
     context 'with simp_options::selinux: false' do
@@ -59,11 +68,6 @@ describe 'selinux class' do
       it 'should be idempotent' do
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
-
-      # This test will be removed when the system removes this file on it's own
-      # describe file('/.autorelabel') do
-      #   it { should_not exist }
-      # end
     end
 
     context 'when re-enabling selinux after being disabled' do
@@ -80,10 +84,6 @@ describe 'selinux class' do
         expect(status.output).to match(/Disabled/)
       end
 
-      describe file('/.autorelabel') do
-        it { should exist }
-      end
-
       it 'should be enforcing after reboot' do
         host.reboot
 
@@ -97,11 +97,6 @@ describe 'selinux class' do
         apply_manifest_on(host, manifest, :catch_failures => true)
         apply_manifest_on(host, manifest, :catch_changes => true)
       end
-
-      # This test will be removed when the system removes this file on it's own
-      # describe file('/.autorelabel') do
-      #   it { should_not exist }
-      # end
     end
   end
 end
