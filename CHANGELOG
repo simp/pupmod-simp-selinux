@@ -1,15 +1,20 @@
 * Mon Jul 09 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.3.0-0
+- Adds a `selinux_login` custom type that provides for the management of login
+  to user role mappings.
+- Incorporated the fork of the `voxpupuli-selinux` module as `simp-vox_selinux`
+  without conflict
 - Add support for OEL and Puppet 5
 - Fix bug with enforcement switching in the native type
 
 * Mon Apr 23 2018 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 2.2.0-0
 - simp_options::selinux was supposed to indicate if the selinux module should
-  be included. Class include lists set in the simp module would include selinux  reguardless
-  of this setting.  This option was also being used to set the state of selinux.
-  This caused confusion so  simp_options::selinux setting was removed.
-  The selinux state, set by the ensure parameter, is defaulted to 'enforcing'.
-  This will result in the same behavior as if simp_options::selinux was set to true.
-  See the pupmod-simp-simp module to see which scenarios include selinux by default.
+  be included. Class include lists set in the simp module would include selinux
+  regardless of this setting.  This option was also being used to set the state
+  of selinux.  This caused confusion so  simp_options::selinux setting was
+  removed.  The selinux state, set by the ensure parameter, is defaulted to
+  'enforcing'.  This will result in the same behavior as if simp_options::selinux
+  was set to true.  See the pupmod-simp-simp module to see which scenarios
+  include selinux by default.
 
 * Thu Dec 07 2017 Steven Pritchard <steven.pritchard@onyxpoint.com> - 2.1.2-0
 - Update README.md from puppet strings
