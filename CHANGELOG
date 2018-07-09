@@ -1,4 +1,4 @@
-* Sun Mar 25 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.3.0-0
+* Mon Jul 09 2018 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.3.0-0
 - Add support for OEL and Puppet 5
 - Fix bug with enforcement switching in the native type
 
