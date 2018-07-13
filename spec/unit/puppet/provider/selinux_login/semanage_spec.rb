@@ -30,6 +30,9 @@ __default__          unconfined_u         s0-s0:c0.c1023       *
 root                 unconfined_u         s0-s0:c0.c1023       *
       EOM
     )
+
+    # Need to bind this explicitly
+    resource.provider = provider
   end
 
   context 'self.instances' do
