@@ -1,11 +1,10 @@
-# Install selinux-related packages
+# Install selinux-related packages not managed by vox_selinux
 #
 class selinux::install {
   assert_private()
 
   $utils_packages = [
-    'checkpolicy',
-    'policycoreutils-python',
+    'checkpolicy'
   ]
 
   if $::selinux::manage_utils_package {

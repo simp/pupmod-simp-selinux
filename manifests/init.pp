@@ -37,6 +37,20 @@
 #
 # @param package_ensure The ensure status of packages to be installed
 #
+# @param login_resources
+#   A hash of resources that should be created on the system as expected by
+#   `create_resources()` called on the `selinux_login` type
+#
+#   @example Change __default__ to user_u
+#     ---
+#     selinux::login_resources:
+#       "__default__":
+#         seuser: user_u
+#         mls_range: s0
+#       "%admins":
+#         seuser: staff_u
+#         mls_range: "SystemLow-SystemHigh"
+#
 class selinux (
   # defaults are in module data
   Boolean                $manage_mcstrans_package,
@@ -46,11 +60,12 @@ class selinux (
   Boolean                $manage_restorecond_package,
   Boolean                $manage_restorecond_service,
   String                 $restorecond_package_name,
-  Selinux::State         $ensure               = 'enforcing',
-  Boolean                $autorelabel          = false,
-  Boolean                $manage_utils_package = true,
-  String                 $package_ensure       = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
-  Enum['targeted','mls'] $mode                 = 'targeted'
+  Selinux::State         $ensure                      = 'enforcing',
+  Boolean                $autorelabel                 = false,
+  Boolean                $manage_utils_package        = true,
+  String                 $package_ensure              = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  Enum['targeted','mls'] $mode                        = 'targeted',
+  Optional[Hash]         $login_resources             = undef
 ) {
 
   $state = $ensure ? {
@@ -62,8 +77,14 @@ class selinux (
   contain 'selinux::install'
   contain 'selinux::config'
   contain 'selinux::service'
+  contain 'vox_selinux'
 
   Class['selinux::install']
   -> Class['selinux::config']
   ~> Class['selinux::service']
+  -> Class['vox_selinux']
+
+  if $login_resources {
+    create_resources('selinux_login', $login_resources)
+  }
 }

@@ -11,7 +11,8 @@ Puppet::Type.newtype(:selinux_state) do
   newparam(:autorelabel, :boolean => true, :parent => Puppet::Parameter::Boolean) do
     desc 'Automatically determine if the filesystem needs to be relabeled.
       Enforcing > Permissive > Disabled
-    Going up the right requires relabeling.'
+    Going to the right requires relabeling.'
+
     defaultto 'true'
   end
 
@@ -45,5 +46,4 @@ Puppet::Type.newtype(:selinux_state) do
     req.each { |r| debug "Autorequiring #{r}" }
     req
   end
-
 end
