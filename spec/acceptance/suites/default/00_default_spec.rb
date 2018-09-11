@@ -9,6 +9,13 @@ describe 'selinux class' do
     let(:host_fqdn) { fact_on(host, 'fqdn') }
 
     context 'prep' do
+      # There have been issues with OEL 7 and SSH hanging due to an old EL7 bug
+      if fact_on(host, 'operatingsystem').strip == 'OracleLinux'
+        it 'should update systemd packages' do
+          on(host, 'yum -y update systemd*')
+        end
+      end
+
       it 'should enable SELinux and set it to permissive' do
         enable_selinux_manifest = <<-EOM
           class { 'selinux':
