@@ -1,0 +1,74 @@
+---
+version: 2.0.0
+checks:
+  oval:com.puppet.forge.simp.selinux.ensure:
+    settings:
+      parameter: selinux::ensure
+      value: enforcing
+    type: puppet-class-parameter
+    controls:
+      nist_800_53_rev4:AC-3:3: true
+      disa_stig: true
+      RHEL-07-020210: true
+      RHEL-07-020080: true
+      SRG-OS-000445-GPOS-00199: true
+      SRG-OS-000312-GPOS-00124: true
+      cci:CCI-002696: true
+      cci:CCI-002165: true
+    identifiers:
+      nist_800_53_rev4:
+      - AC-3:3
+      disa_stig:
+      - RHEL-07-020210
+      - RHEL-07-020080
+      - SRG-OS-000445-GPOS-00199
+      - SRG-OS-000312-GPOS-00124
+      - CCI-002696
+      - CCI-002165
+  oval:com.puppet.forge.simp.selinux.mode:
+    settings:
+      parameter: selinux::mode
+      value: targeted
+    type: puppet-class-parameter
+    controls:
+      nist_800_53_rev4:AC-3:3: true
+      disa_stig: true
+      RHEL-07-020210: true
+      RHEL-07-020080: true
+      SRG-OS-000445-GPOS-00199: true
+      SRG-OS-000312-GPOS-00124: true
+      cci:CCI-002696: true
+      cci:CCI-002165: true
+    identifiers:
+      nist_800_53_rev4:
+      - AC-3:3
+      disa_stig:
+      - RHEL-07-020210
+      - RHEL-07-020080
+      - SRG-OS-000445-GPOS-00199
+      - SRG-OS-000312-GPOS-00124
+      - CCI-002696
+      - CCI-002165
+  oval:com.puppet.forge.simp.selinux.login_resources:
+    settings:
+      parameter: selinux::login_resources
+      value:
+        __default__:
+          seuser: user_u
+          mls_range: SystemLow
+    type: puppet-class-parameter
+    controls:
+      disa_stig: true
+      RHEL-07-020020: true
+      SRG-OS-000324-GPOS-00125: true
+      cci:CCI-002165: true
+      cci:CCI-002235: true
+    identifiers:
+      disa_stig:
+      - RHEL-07-020020
+      - SRG-OS-000324-GPOS-00125
+      - CCI-002165
+      - CCI-002235
+    confine:
+      osfamily: RedHat
+      operatingsystemmajrelease: '7'
