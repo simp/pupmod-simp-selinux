@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -15,7 +15,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.9.0 < 5.0.0"
+      "version_requirement": ">= 4.9.0 < 6.0.0"
     },
     {
       "name": "simp/simplib",
