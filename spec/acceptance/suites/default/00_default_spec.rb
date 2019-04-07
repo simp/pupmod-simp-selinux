@@ -43,6 +43,8 @@ describe 'selinux class' do
 
         result = on(host, %{source /etc/selinux/config && echo $SELINUX})
         expect(result.output.strip).to be == 'enforcing'
+
+        host.reboot
       end
 
       it 'should be idempotent' do
@@ -58,7 +60,7 @@ describe 'selinux class' do
         set_hieradata_on(host, hieradata)
         agent_output = apply_manifest_on(host, manifest, :catch_failures => true)
         expect(agent_output.stdout).to match(/ensure changed 'enforcing' to 'disabled'/)
-        expect(agent_output.stdout).to match(/System Reboot Required Because:\n\s+selinux => A reboot is required to completely modify selinux state/)
+        expect(agent_output.stdout).to match(/System Reboot Required Because:\n\s+selinux => A reboot is required to modify the selinux state/)
         status = on(host, 'getenforce')
         expect(status.output).to match(/Permissive/)
         # This will not be idempotent until after reboot since the system will
@@ -85,7 +87,7 @@ describe 'selinux class' do
         set_hieradata_on(host, hieradata)
         agent_output = apply_manifest_on(host, manifest, :catch_failures => true)
         expect(agent_output.stdout).to match(/ensure changed 'disabled' to 'enforcing'/)
-        expect(agent_output.stdout).to match(/System Reboot Required Because:\n\s+selinux => A reboot is required to completely modify selinux state/)
+        expect(agent_output.stdout).to match(/System Reboot Required Because:\n\s+selinux => A reboot is required to modify the selinux state/)
         status = on(host, 'getenforce')
         # Won't take effect until after reboot
         expect(status.output).to match(/Disabled/)
