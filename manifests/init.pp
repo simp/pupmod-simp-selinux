@@ -35,6 +35,9 @@
 # @param restorecond_package_name
 #   The `restorecond` package name.
 #
+# @param kernel_enforce
+#   Add the SELinux settings to the default kernel settings.
+
 # @param package_ensure The ensure status of packages to be installed
 #
 # @param login_resources
@@ -61,6 +64,7 @@ class selinux (
   Boolean                $manage_restorecond_service,
   String                 $restorecond_package_name,
   Selinux::State         $ensure                      = 'enforcing',
+  Boolean                $kernel_enforce              = false,
   Boolean                $autorelabel                 = false,
   Boolean                $manage_utils_package        = true,
   String                 $package_ensure              = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),

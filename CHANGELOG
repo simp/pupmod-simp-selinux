@@ -1,3 +1,10 @@
+* Fri Apr 05 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.4.0-0
+- Add `selinux::kernel_enforce` for toggling the enforcement of the selinux
+  state at the kernel command line.
+- Switch the /etc/selinux/config template over to EPP format.
+- Deprecate Puppet 4 support
+- Add Puppet 6 support
+
 * Thu Mar 07 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 2.3.1-0
 - Update the upper bound of stdlib to < 6.0.0
 - Update a URL in the README.md
