@@ -1,3 +1,6 @@
+* Tue Apr 23 2019 Joseph Sharkey <shark.bruhaha@gmail.com> - 2.4.1-0
+- Updated .travis.yml, .gitlab-ci.yml, .ruby-version
+
 * Fri Apr 05 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.4.0-0
 - Add `selinux::kernel_enforce` for toggling the enforcement of the selinux
   state at the kernel command line.
