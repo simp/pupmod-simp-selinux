@@ -1,3 +1,7 @@
+* Fri Jun 14 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.4.1-0
+- Ensure that the selinux::login_resources Hash performs a deep merge by
+  default.
+
 * Fri Apr 05 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.4.0-0
 - Add `selinux::kernel_enforce` for toggling the enforcement of the selinux
   state at the kernel command line.

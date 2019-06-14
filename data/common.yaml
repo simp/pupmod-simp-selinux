@@ -1,4 +1,10 @@
 ---
+lookup_options:
+  selinux::login_resources:
+    merge:
+      stragety: deep
+      knockout_prefix: --
+
 selinux::manage_mcstrans_package: true
 selinux::manage_mcstrans_service: true
 selinux::mcstrans_package_name: mcstrans

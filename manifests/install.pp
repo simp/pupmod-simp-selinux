@@ -1,4 +1,4 @@
-# Install selinux-related packages not managed by vox_selinux
+# @summary Install selinux-related packages not managed by vox_selinux
 #
 class selinux::install {
   assert_private()

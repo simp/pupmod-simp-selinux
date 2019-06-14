@@ -1,4 +1,4 @@
-# Manage active SELinux state and state after a reboot
+# @summary Manage active SELinux state and state after a reboot
 #
 # @param ensure
 #   The state that SELinux should be in.
@@ -43,6 +43,9 @@
 # @param login_resources
 #   A hash of resources that should be created on the system as expected by
 #   `create_resources()` called on the `selinux_login` type
+#
+#   A deep merge strategy is used when performing APL lookups on this value by
+#   default.
 #
 #   @example Change __default__ to user_u
 #     ---

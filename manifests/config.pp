@@ -1,4 +1,4 @@
-# This class sets selinux system parameters
+# @summary Set global SELinux system parameters
 #
 class selinux::config {
   assert_private()
