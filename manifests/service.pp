@@ -1,5 +1,4 @@
-# Ensures mcstrans and restorecond services are running,
-# as appropriate
+# @summary Ensures mcstrans and restorecond services managed
 #
 class selinux::service {
   assert_private()

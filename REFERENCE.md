@@ -5,10 +5,10 @@
 
 **Classes**
 
-* [`selinux`](#selinux): Manage active SELinux state and state after a reboot
-* [`selinux::config`](#selinuxconfig): This class sets selinux system parameters
+* [`selinux`](#selinux): 
+* [`selinux::config`](#selinuxconfig): Set global SELinux system parameters
 * [`selinux::install`](#selinuxinstall): Install selinux-related packages not managed by vox_selinux
-* [`selinux::service`](#selinuxservice): Ensures mcstrans and restorecond services are running, as appropriate
+* [`selinux::service`](#selinuxservice): Ensures mcstrans and restorecond services managed
 
 **Resource types**
 
@@ -19,88 +19,11 @@
 
 ### selinux
 
-Manage active SELinux state and state after a reboot
+The selinux class.
 
 #### Parameters
 
 The following parameters are available in the `selinux` class.
-
-##### `ensure`
-
-Data type: `Selinux::State`
-
-The state that SELinux should be in.
-Since you are calling this class, we assume that you want to enforce.
-
-Default value: 'enforcing'
-
-##### `mode`
-
-Data type: `Enum['targeted','mls']`
-
-The SELinux type you want to enforce.
-Note, it is quite possible that 'mls' will render your system inoperable.
-
-Default value: 'targeted'
-
-##### `autorelabel`
-
-Data type: `Boolean`
-
-Automatically relabel the filesystem if needed
-
-Default value: `false`
-
-##### `manage_utils_package`
-
-Data type: `Boolean`
-
-If true, ensure policycoreutils-python is installed. This is a supplemental
-package that is required by semanage.
-
-Default value: `true`
-
-##### `manage_mcstrans_package`
-
-Data type: `Boolean`
-
-Manage the `mcstrans` package.
-
-##### `manage_mcstrans_service`
-
-Data type: `Boolean`
-
-Manage the `mcstrans` service.
-
-##### `mcstrans_service_name`
-
-Data type: `String`
-
-The `mcstrans` service name.
-
-##### `mcstrans_package_name`
-
-Data type: `String`
-
-The `mcstrans` package name.
-
-##### `manage_restorecond_package`
-
-Data type: `Boolean`
-
-Manage the `restorecond` package.
-
-##### `manage_restorecond_service`
-
-Data type: `Boolean`
-
-Manage the `restorecond` service.
-
-##### `restorecond_package_name`
-
-Data type: `String`
-
-The `restorecond` package name.
 
 ##### `package_ensure`
 
@@ -117,6 +40,9 @@ Data type: `Optional[Hash]`
 A hash of resources that should be created on the system as expected by
 `create_resources()` called on the `selinux_login` type
 
+A deep merge strategy is used when performing APL lookups on this value by
+default.
+
 @example Change __default__ to user_u
   ---
   selinux::login_resources:
@@ -129,9 +55,91 @@ A hash of resources that should be created on the system as expected by
 
 Default value: `undef`
 
+##### `manage_mcstrans_package`
+
+Data type: `Boolean`
+
+
+
+##### `manage_mcstrans_service`
+
+Data type: `Boolean`
+
+
+
+##### `mcstrans_package_name`
+
+Data type: `String`
+
+
+
+##### `mcstrans_service_name`
+
+Data type: `String`
+
+
+
+##### `manage_restorecond_package`
+
+Data type: `Boolean`
+
+
+
+##### `manage_restorecond_service`
+
+Data type: `Boolean`
+
+
+
+##### `restorecond_package_name`
+
+Data type: `String`
+
+
+
+##### `ensure`
+
+Data type: `Selinux::State`
+
+
+
+Default value: 'enforcing'
+
+##### `kernel_enforce`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
+
+##### `autorelabel`
+
+Data type: `Boolean`
+
+
+
+Default value: `false`
+
+##### `manage_utils_package`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
+
+##### `mode`
+
+Data type: `Enum['targeted','mls']`
+
+
+
+Default value: 'targeted'
+
 ### selinux::config
 
-This class sets selinux system parameters
+Set global SELinux system parameters
 
 ### selinux::install
 
@@ -139,8 +147,7 @@ Install selinux-related packages not managed by vox_selinux
 
 ### selinux::service
 
-Ensures mcstrans and restorecond services are running,
-as appropriate
+Ensures mcstrans and restorecond services managed
 
 ## Resource types
 
