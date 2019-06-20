@@ -7,7 +7,8 @@ checks:
       value: enforcing
     type: puppet-class-parameter
     controls:
-      nist_800_53_rev4:AC-3:3: true
+      nist_800_53:rev4: true
+      nist_800_53:rev4:AC-3:3: true
       disa_stig: true
       RHEL-07-020210: true
       RHEL-07-020080: true
@@ -16,7 +17,7 @@ checks:
       cci:CCI-002696: true
       cci:CCI-002165: true
     identifiers:
-      nist_800_53_rev4:
+      nist_800_53:rev4:
       - AC-3:3
       disa_stig:
       - RHEL-07-020210
@@ -31,7 +32,8 @@ checks:
       value: targeted
     type: puppet-class-parameter
     controls:
-      nist_800_53_rev4:AC-3:3: true
+      nist_800_53:rev4: true
+      nist_800_53:rev4:AC-3:3: true
       disa_stig: true
       RHEL-07-020210: true
       RHEL-07-020080: true
@@ -40,7 +42,7 @@ checks:
       cci:CCI-002696: true
       cci:CCI-002165: true
     identifiers:
-      nist_800_53_rev4:
+      nist_800_53:rev4:
       - AC-3:3
       disa_stig:
       - RHEL-07-020210
