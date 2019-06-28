@@ -19,6 +19,7 @@ describe 'compliance_markup', type: :class do
   # defaults
   expected_classes = [
     'selinux',
+    'simp_options',
   ]
 
   allowed_failures = {
