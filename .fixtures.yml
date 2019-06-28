@@ -7,6 +7,7 @@ fixtures:
     augeasproviders_core: https://github.com/simp/augeasproviders_core
     augeasproviders_grub: https://github.com/simp/augeasproviders_grub
     compliance_markup: https://github.com/simp/pupmod-simp-compliance_markup
+    simp_options: https://github.com/simp/pupmod-simp-simp_options
     simplib: https://github.com/simp/pupmod-simp-simplib
     stdlib: https://github.com/simp/puppetlabs-stdlib
     vox_selinux:
