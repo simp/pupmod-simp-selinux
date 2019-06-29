@@ -71,6 +71,3 @@ checks:
       - SRG-OS-000324-GPOS-00125
       - CCI-002165
       - CCI-002235
-    confine:
-      osfamily: RedHat
-      operatingsystemmajrelease: '7'
