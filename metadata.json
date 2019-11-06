@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     },
     {
       "name": "simp/vox_selinux",
-      "version_requirement": ">= 1.5.2 < 2.0.0"
+      "version_requirement": ">= 3.0.0 < 4.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -31,14 +31,16 @@
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {

@@ -1,3 +1,11 @@
+* Wed Nov 06 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 2.5.1-0
+- defined values for EL8 in data in modules.
+- Updated Gemfile versions to ones that support EL8.
+- update metadata.json to include support for CentOS 8 and RedHat 8
+- Added acceptance test  nodes for Centos8 and Redhat 8
+- removed $:: from top level variables.
+- removed tests for puppet 4 from travis.yml.
+
 * Fri Jun 28 2019 Steven Pritchard <steven.pritchard@onypoint.com> - 2.5.0-0
 - Add v2 compliance_markup data
 - Add support for puppetlabs-stdlib 6
