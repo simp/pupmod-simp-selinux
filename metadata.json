@@ -23,22 +23,24 @@
     },
     {
       "name": "simp/vox_selinux",
-      "version_requirement": ">= 1.5.2 < 2.0.0"
+      "version_requirement": ">= 1.5.2 < 4.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "6",
-        "7"
+        "8",
+        "7",
+        "6"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "6",
-        "7"
+        "8",
+        "7",
+        "6"
       ]
     },
     {

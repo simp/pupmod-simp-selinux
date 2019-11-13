@@ -1,3 +1,8 @@
+* Wed Nov 11 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.5.0-0
+- Add EL8 support
+- Bump the version of vox_selinux that is supported
+- Updated REFERENCE.md
+
 * Fri Jun 28 2019 Steven Pritchard <steven.pritchard@onypoint.com> - 2.5.0-0
 - Add v2 compliance_markup data
 - Add support for puppetlabs-stdlib 6

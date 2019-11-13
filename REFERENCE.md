@@ -15,6 +15,10 @@
 * [`selinux_login`](#selinux_login): Manage SELinux login mapping configuration  NOTE: You may need to run `restorecon -RF` on any user home directories that have their default c
 * [`selinux_state`](#selinux_state): Toggle the enforcement of selinux
 
+**Data types**
+
+* [`Selinux::State`](#selinuxstate): Types of selinux enforcement
+
 ## Classes
 
 ### selinux
@@ -238,4 +242,16 @@ Automatically determine if the filesystem needs to be relabeled.
 Going to the right requires relabeling.
 
 Default value: `true`
+
+## Data types
+
+### Selinux::State
+
+Types of selinux enforcement
+
+Alias of `Variant[Boolean, Enum[
+    'enforcing',
+    'permissive',
+    'disabled'
+  ]]`
 
