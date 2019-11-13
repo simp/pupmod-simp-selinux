@@ -1,4 +1,4 @@
-* Wed Nov 13 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.5.0-0
+* Wed Nov 13 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.5.1-0
 - Add EL8 support
 - Bump the version of vox_selinux that is supported
 - Updated REFERENCE.md
