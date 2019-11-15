@@ -5,6 +5,7 @@
 - Added acceptance test  nodes for Centos8 and Redhat 8
 - removed $:: from top level variables.
 - removed tests for puppet 4 from travis.yml.
+- Bumped upper bound for simp-simplib to < 5.0.0
 
 * Fri Jun 28 2019 Steven Pritchard <steven.pritchard@onypoint.com> - 2.5.0-0
 - Add v2 compliance_markup data
