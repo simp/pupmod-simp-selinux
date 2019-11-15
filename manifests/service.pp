@@ -3,7 +3,7 @@
 class selinux::service {
   assert_private()
 
-  if ($::selinux::state == 'disabled') or !$facts['selinux'] {
+  if ($selinux::state == 'disabled') or !$facts['selinux'] {
     $_aux_service_ensure = 'stopped'
   }
   else {
@@ -12,8 +12,8 @@ class selinux::service {
     $_aux_service_ensure = 'running'
   }
 
-  if $::selinux::manage_mcstrans_service {
-    service { $::selinux::mcstrans_service_name:
+  if $selinux::manage_mcstrans_service {
+    service { $selinux::mcstrans_service_name:
       ensure     => $_aux_service_ensure,
       enable     => true,
       hasrestart => true,
@@ -22,7 +22,7 @@ class selinux::service {
     }
   }
 
-  if $::selinux::manage_restorecond_service {
+  if $selinux::manage_restorecond_service {
     service { 'restorecond':
       ensure     => $_aux_service_ensure,
       enable     => true,
