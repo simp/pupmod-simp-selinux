@@ -1,6 +1,10 @@
 ---
 fixtures:
   repositories:
+    disa_stig-el7-baseline:
+      repo: https://github.com/simp/inspec-profile-disa_stig-el7
+      branch: master
+      target: spec/fixtures/inspec_deps/inspec_profiles/profiles
     augeas_core:
       repo: https://github.com/simp/pupmod-puppetlabs-augeas_core.git
       puppet_version: ">= 6.0.0"
