@@ -1,6 +1,5 @@
 * Mon Jan 13 2020 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 2.5.1-0
 - Add EL8 defaults for Oracle Linux
-- Update spec_helper settings so unit test can run on FIPS systems
 
 * Wed Nov 06 2019 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 2.5.1-0
 - Defined values for EL8 in data in modules.
