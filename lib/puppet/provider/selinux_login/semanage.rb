@@ -13,6 +13,20 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
 
     selinux_policy = Facter.value(:selinux_config_policy)
 
+    # For some reason, selinux_config_policy does not always have a value
+    unless selinux_policy
+      if File.exist?('/etc/selinux/config')
+
+        selinux_type_entry = File.read('/etc/selinux/config').lines.grep(/\A\s*SELINUXTYPE=/).last
+
+        if selinux_type_entry
+          selinux_policy = selinux_type_entry.split('=').last.strip
+        end
+      end
+    end
+
+    raise(Puppet::Error, 'Could not find the policy type in /etc/selinux/config. Is SELinux enabled and working?') unless selinux_policy
+
     @setrans_table ||= {}
 
     if @setrans_table.empty?
