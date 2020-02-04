@@ -8,8 +8,6 @@
 HOSTS:
   el6:
     roles:
-      - default
-      - master
       - client
     platform:   el-6-x86_64
     box:        centos/6
@@ -32,10 +30,17 @@ HOSTS:
         gpgkeys:
           - https://packages.chef.io/chef.asc
 
+
   el8:
     roles:
+      - default
+      - master
       - client
     platform: el-8-x86_64
+    # box: centos/8 does not work.  When switching from
+    # selinux disabled to enabled it does nto reboot. It
+    # hangs up relabeling.  Possibly because /boot is not
+    # a seperate partition???
     box: generic/centos8
     hypervisor: <%= hypervisor %>
     yum_repos:
