@@ -7,8 +7,6 @@
 -%>
 HOSTS:
   el6:
-    roles:
-      - client
     platform:   el-6-x86_64
     box:        centos/6
     hypervisor: <%= hypervisor %>
@@ -20,7 +18,7 @@ HOSTS:
 
   el7:
     roles:
-      - client
+      - default
     platform: el-7-x86_64
     box: centos/7
     hypervisor: <%= hypervisor %>
@@ -32,16 +30,13 @@ HOSTS:
 
 
   el8:
-    roles:
-      - default
-      - master
-      - client
     platform: el-8-x86_64
     # box: centos/8 does not work.  When switching from
-    # selinux disabled to enabled it does nto reboot. It
+    # selinux disabled to enabled it does not reboot. It
     # hangs up relabeling.  Possibly because /boot is not
     # a seperate partition???
-    box: generic/centos8
+    #box: generic/centos8
+    box: centos/8
     hypervisor: <%= hypervisor %>
     yum_repos:
       chef-current:

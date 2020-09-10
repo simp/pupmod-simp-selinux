@@ -1,3 +1,9 @@
+* Thu Sep 09 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.6.0-0
+- No longer enable or install mcstransd by default
+  - It is a user convenience feature and not required for core functionality
+- Ensure that mcstransd is added to the GID assigned to `/proc` if one is
+  assigned on the system
+
 * Mon Jan 13 2020 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 2.5.1-0
 - Add EL8 defaults for Oracle Linux
 
@@ -5,7 +11,7 @@
 - Defined values for EL8 in data in modules.
 - Updated Gemfile versions to ones that support EL8.
 - Updated metadata.json to include support for CentOS 8 and RedHat 8
-- Added acceptance test  nodes for Centos8 and Redhat 8
+- Added acceptance test  nodes for CentOS 8 and RedHat 8
 - Removed $:: from top level variables.
 - Removed tests for Puppet 4 from travis.yml.
 - Bumped upper bound for simp-simplib to < 5.0.0

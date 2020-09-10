@@ -1,20 +1,18 @@
 require 'spec_helper'
 
-#TODO add modern selinux facts to simp-rspec-puppet-facts
-selinux_base_facts = {
-  config_mode:    "enforcing",
-  config_policy:  "targeted",
-  current_mode:   "enforcing",
-  enabled:        true,
-  enforced:       true,
-  policy_version: "28"
-}
-
 describe 'selinux' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) do
         os_facts
+      end
+
+      let(:mcstrans_service) do
+        os_facts[:os][:release][:major].to_i >= 7 ? 'mcstransd' : 'mcstrans'
+      end
+
+      let(:policycoreutils_package) do
+        os_facts[:os][:release][:major].to_i >= 7 ? 'policycoreutils-restorecond' : 'policycoreutils'
       end
 
       context 'with default parameters' do
@@ -33,25 +31,84 @@ describe 'selinux' do
           EOF
           ) }
         it { is_expected.to contain_package('checkpolicy').with(ensure: 'installed') }
-        it { is_expected.to contain_package('mcstrans').with(ensure: 'installed') }
+        it { is_expected.not_to contain_package('mcstrans') }
+        it { is_expected.not_to contain_service('mcstransd') }
 
         if os_facts[:os][:release][:major].to_i >= 7
-          it { is_expected.to create_service('mcstransd').with({
-            enable: true,
-            ensure: 'running'
-          }) }
-          it { is_expected.not_to contain_package('policycoreutils-restorecond') }
+          it { is_expected.not_to contain_package(policycoreutils_package) }
           it { is_expected.not_to create_service('restorecond') }
         else
-          it { is_expected.to create_service('mcstrans').with({
-            enable: true,
-            ensure: 'running'
-          }) }
-          it { is_expected.to contain_package('policycoreutils').with(ensure: 'installed') }
+          it { is_expected.to contain_package(policycoreutils_package).with(ensure: 'installed') }
           it { is_expected.to create_service('restorecond').with({
             enable: true,
             ensure: 'running'
           }) }
+        end
+      end
+
+      context 'when managing mcstrans' do
+        let(:params) do
+          {
+            :manage_mcstrans_package => true,
+            :manage_mcstrans_service => true
+          }
+        end
+
+        it { is_expected.to contain_package('mcstrans').with(ensure: 'installed') }
+
+        it { is_expected.to create_service(mcstrans_service).with({
+            enable: true,
+            ensure: 'running'
+        }) }
+
+        if Array(os_facts[:init_systems]).include?('systemd')
+          context 'when hidepid=2 on /proc' do
+            let(:facts) do
+              os_facts.merge(
+                {
+                  :simplib__mountpoints => {
+                    '/proc' => {
+                      'options_hash' => {
+                        'hidepid' => 2
+                      }
+                    }
+                  }
+                }
+              )
+            end
+
+            it { is_expected.to create_service(mcstrans_service) }
+            it { is_expected.not_to create_systemd__dropin_file('selinux_mcstransd_hidepid_add_gid') }
+
+            context 'when gid set on /proc' do
+              let(:proc_gid) do
+                999
+              end
+
+              let(:facts) do
+                os_facts.merge(
+                  {
+                    :simplib__mountpoints => {
+                      '/proc' => {
+                        'options_hash' => {
+                          'hidepid' => 2,
+                          'gid' => proc_gid
+                        }
+                      }
+                    }
+                  }
+                )
+              end
+
+              it { is_expected.to create_service(mcstrans_service) }
+              it do
+                is_expected.to create_systemd__dropin_file('selinux_mcstransd_hidepid_add_gid.conf')
+                  .with_unit("#{mcstrans_service}.service")
+                  .with_content(/SupplementaryGroups=#{proc_gid}/)
+                  .that_notifies("Service[#{mcstrans_service}]")
+              end
+            end
+          end
         end
       end
 
@@ -93,21 +150,9 @@ describe 'selinux' do
           SELINUXTYPE=targeted
           EOF
           ) }
-        it { is_expected.to contain_package('mcstrans').with(ensure: 'installed') }
 
-        if os_facts[:os][:release][:major].to_i >= 7
-          it { is_expected.to create_service('mcstransd').with(
-            enable: true,
-            ensure: 'stopped'
-          ) }
-          it { is_expected.to contain_package('policycoreutils-restorecond').with(ensure: 'installed') }
-        else
-          it { is_expected.to create_service('mcstrans').with(
-            enable: true,
-            ensure: 'stopped'
-          ) }
-          it { is_expected.to contain_package('policycoreutils').with(ensure: 'installed') }
-        end
+        it { is_expected.to contain_package(policycoreutils_package).with(ensure: 'installed') }
+
         it { is_expected.to create_service('restorecond').with(
           enable: true,
           ensure: 'stopped'
