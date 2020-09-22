@@ -56,6 +56,8 @@ default.
       mls_range: s0
     "%admins":
       seuser: staff_u
+      # This only works if you enable mcstransd
+      # using selinux::manage_mcstrans_service: true
       mls_range: "SystemLow-SystemHigh"
 
 Default value: ``undef``
