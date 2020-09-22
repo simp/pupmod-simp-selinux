@@ -31,11 +31,6 @@ HOSTS:
 
   el8:
     platform: el-8-x86_64
-    # box: centos/8 does not work.  When switching from
-    # selinux disabled to enabled it does not reboot. It
-    # hangs up relabeling.  Possibly because /boot is not
-    # a seperate partition???
-    #box: generic/centos8
     box: centos/8
     hypervisor: <%= hypervisor %>
     yum_repos:
