@@ -5,8 +5,8 @@ lookup_options:
       strategy: deep
       knockout_prefix: --
 
-selinux::manage_mcstrans_package: true
-selinux::manage_mcstrans_service: true
+selinux::manage_mcstrans_package: false
+selinux::manage_mcstrans_service: false
 selinux::mcstrans_package_name: mcstrans
 
 selinux::restorecond_service_name: restorecond

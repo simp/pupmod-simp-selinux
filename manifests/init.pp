@@ -6,7 +6,7 @@
 #
 # @param mode
 #   The SELinux type you want to enforce.
-#   Note, it is quite possible that 'mls' will render your system inoperable.
+#   Note, it is quite possible that `mls` will render your system inoperable.
 #
 # @param autorelabel Automatically relabel the filesystem if needed
 #
@@ -55,6 +55,8 @@
 #         mls_range: s0
 #       "%admins":
 #         seuser: staff_u
+#         # This only works if you enable mcstransd
+#         # using selinux::manage_mcstrans_service: true
 #         mls_range: "SystemLow-SystemHigh"
 #
 class selinux (

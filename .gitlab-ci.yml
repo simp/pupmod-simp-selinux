@@ -76,6 +76,8 @@ variables:
     - "{manifests,files,types}/**/*"
     - "templates/*.{erb,epp}"
     - "lib/**/*"
+    - "Gemfile"
+    - "SIMP/**/*"
   exists:
     - "spec/{classes,unit,defines,type_aliases,types,hosts}/**/*_spec.rb"
 
@@ -87,6 +89,8 @@ variables:
     - "{manifests,files,types}/**/*"
     - "templates/*.{erb,epp}"
     - "lib/**/*"
+    - "Gemfile"
+    - "SIMP/**/*"
   exists:
     - "spec/acceptance/**/*_spec.rb"
 

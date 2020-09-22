@@ -57,7 +57,7 @@ checks:
       value:
         __default__:
           seuser: user_u
-          mls_range: SystemLow
+          mls_range: s0
     type: puppet-class-parameter
     controls:
       disa_stig: true

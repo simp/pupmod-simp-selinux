@@ -29,7 +29,8 @@ group :development do
 end
 
 group :system_tests do
-  gem 'beaker'
+  #gem 'beaker'
+  gem 'beaker', :git => 'https://github.com/voxpupuli/beaker', :ref => '2f03c5f'
   gem 'beaker-rspec'
   gem 'simp-beaker-helpers', ENV['SIMP_BEAKER_HELPERS_VERSION'] || ['>= 1.18.7', '< 2']
 end
