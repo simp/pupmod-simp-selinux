@@ -6,7 +6,7 @@
 #
 # @param mode
 #   The SELinux type you want to enforce.
-#   Note, it is quite possible that 'mls' will render your system inoperable.
+#   Note, it is quite possible that `mls` will render your system inoperable.
 #
 # @param autorelabel Automatically relabel the filesystem if needed
 #
