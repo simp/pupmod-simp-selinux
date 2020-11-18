@@ -72,7 +72,7 @@ class selinux (
   Boolean                $kernel_enforce              = false,
   Boolean                $autorelabel                 = false,
   Boolean                $manage_utils_package        = true,
-  String                 $package_ensure              = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  String                 $package_ensure              = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' }),
   Enum['targeted','mls'] $mode                        = 'targeted',
   Optional[Hash]         $login_resources             = undef
 ) {

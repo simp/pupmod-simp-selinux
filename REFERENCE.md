@@ -36,7 +36,7 @@ Data type: `String`
 
 The ensure status of packages to be installed
 
-Default value: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' })`
+Default value: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' })`
 
 ##### `login_resources`
 
@@ -151,6 +151,66 @@ Set global SELinux system parameters
 ### `selinux::install`
 
 Install selinux-related packages not managed by vox_selinux
+
+#### Parameters
+
+The following parameters are available in the `selinux::install` class.
+
+##### `manage_utils_package`
+
+Data type: `Boolean`
+
+
+
+Default value: `pick(getvar('selinux::manage_utils_package'), true)`
+
+##### `utils_packages`
+
+Data type: `Array[String]`
+
+
+
+Default value: `['checkpolicy']`
+
+##### `manage_mcstrans_package`
+
+Data type: `Boolean`
+
+
+
+Default value: `simplib::lookup('selinux::manage_mcstrans_package')`
+
+##### `mcstrans_package_name`
+
+Data type: `String`
+
+
+
+Default value: `simplib::lookup('selinux::mcstrans_package_name')`
+
+##### `manage_restorecond_package`
+
+Data type: `Boolean`
+
+
+
+Default value: `simplib::lookup('selinux::manage_restorecond_package')`
+
+##### `restorecond_package_name`
+
+Data type: `String`
+
+
+
+Default value: `simplib::lookup('selinux::restorecond_package_name')`
+
+##### `package_ensure`
+
+Data type: `String`
+
+
+
+Default value: `simplib::lookup('selinux::package_ensure', { 'default_value' => simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' } ) } )`
 
 ### `selinux::service`
 
