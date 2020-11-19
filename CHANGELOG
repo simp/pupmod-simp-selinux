@@ -1,3 +1,9 @@
+* Wed Nov 18 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.6.1-0
+- Allow users to include `selinux::install` without needing full SELinux system
+  management. This is particularly important when the native types are to be
+  used in different modules but you don't want to include full management just
+  to get the required packages.
+
 * Mon Sep 21 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.6.0-0
 - No longer enable or install mcstransd by default
   - It is a user convenience feature and not required for core functionality
