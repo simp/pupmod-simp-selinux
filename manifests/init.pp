@@ -94,6 +94,8 @@ class selinux (
   -> Class['vox_selinux']
 
   if $login_resources {
-    create_resources('selinux_login', $login_resources)
+    if $facts['selinux_current_mode'] and ($facts['selinux_current_mode'] != 'disabled') {
+      create_resources('selinux_login', $login_resources)
+    }
   }
 }
