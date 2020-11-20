@@ -1,3 +1,9 @@
+* Fri Nov 20 2020 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-0
+- Fixed a bug in which the module would attempt to create `selinux_login`
+  resources when `selinux::login_resources` was set but selinux was disabled.
+  This resulted in an error message 'Could not find a suitable provider
+  for selinux_login' during catalog compilation.
+
 * Wed Nov 18 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 2.6.1-0
 - Allow users to include `selinux::install` without needing full SELinux system
   management. This is particularly important when the native types are to be

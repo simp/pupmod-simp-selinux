@@ -295,6 +295,50 @@ describe 'selinux' do
           end
         end
       end
+
+      context 'with login_resources set' do
+        let(:params) {{
+          :login_resources => {
+            '__default__' => {
+              'seuser'    => 'user_u',
+              'mls_range' => 'SystemLow'
+            },
+            'vagrant'     => {
+              'seuser'    => 'staff_u',
+              'mls_range' => 'SystemLow-SystemHigh'
+            }
+          }
+        }}
+
+        context 'when selinux disabled' do
+          let(:facts) do
+            os_facts = os_facts.dup
+            os_facts[:selinux_current_mode] = 'disabled'
+            os_facts
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to_not create_selinux_login('__default__') }
+          it { is_expected.to_not create_selinux_login('vagrant') }
+        end
+
+        context 'when selinux is not disabled' do
+          let(:facts) do
+            os_facts = os_facts.dup
+            os_facts[:selinux_current_mode] = 'enforcing'
+            os_facts
+          end
+
+          it { is_expected.to compile.with_all_deps }
+          it { is_expected.to create_selinux_login('__default__')
+             .with_seuser('user_u').with_mls_range('SystemLow')
+          }
+
+          it { is_expected.to create_selinux_login('vagrant')
+             .with_seuser('staff_u').with_mls_range('SystemLow-SystemHigh')
+          }
+        end
+      end
     end
   end
 end
