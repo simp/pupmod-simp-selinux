@@ -6,16 +6,6 @@
   end
 -%>
 HOSTS:
-  el6:
-    platform:   el-6-x86_64
-    box:        centos/6
-    hypervisor: <%= hypervisor %>
-    yum_repos:
-      chef-current:
-        baseurl: 'https://packages.chef.io/repos/yum/current/el/6/$basearch'
-        gpgkeys:
-          - https://packages.chef.io/chef.asc
-
   el7:
     roles:
       - default
