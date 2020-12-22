@@ -1,3 +1,6 @@
+* Sat Dec 19 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 2.6.3
+- Removed EL6 support
+
 * Fri Nov 20 2020 Liz Nemsick <lnemsick.simp@gmail.com> - 2.6.2-0
 - Fixed a bug in which the module would attempt to create `selinux_login`
   resources when `selinux::login_resources` was set but selinux was disabled.
