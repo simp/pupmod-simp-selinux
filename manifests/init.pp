@@ -91,7 +91,6 @@ class selinux (
   Class['selinux::install']
   -> Class['selinux::config']
   ~> Class['selinux::service']
-  -> Class['vox_selinux']
 
   if $login_resources {
     if $facts['selinux_current_mode'] and ($facts['selinux_current_mode'] != 'disabled') {

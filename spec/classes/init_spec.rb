@@ -293,6 +293,23 @@ describe 'selinux' do
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(0).that_notifies('Reboot_notify[selinux]') }
           end
+          context 'with vox_selinux::boolean resources' do
+            let(:facts) do
+              os_facts = os_facts.dup
+              os_facts[:selinux] = true
+              os_facts
+            end
+            let(:params) {{
+              ensure: 'enforcing',
+              kernel_enforce: true
+            }}
+            let(:pre_condition) do
+              <<~END
+                vox_selinux::boolean { 'use_nfs_home_dirs': }
+              END
+            end
+            it { is_expected.to compile.with_all_deps }
+          end
         end
       end
 
