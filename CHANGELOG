@@ -1,3 +1,6 @@
+* Fri Mar 26 2021 Steven Pritchard <steven.pritchard@onyxpoint.com> - 2.6.3
+- Fix dependency cycle when using vox_selinux::boolean
+
 * Sat Dec 19 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 2.6.3
 - Removed EL6 support
 
