@@ -1,3 +1,7 @@
+* Wed Jun 16 2021 Chris Tessmer <chris.tessmer@onyxpoint.com> - 2.7.0
+- Removed support for Puppet 5
+- Ensured support for Puppet 7 in requirements and stdlib
+
 * Fri Mar 26 2021 Steven Pritchard <steven.pritchard@onyxpoint.com> - 2.6.3
 - Fix dependency cycle when using vox_selinux::boolean
 
