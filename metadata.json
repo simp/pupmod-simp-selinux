@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -29,8 +29,8 @@
   "simp": {
     "optional_dependencies": [
       {
-        "name": "camptocamp/systemd",
-        "version_requirement": ">= 2.2.0 < 3.0.0"
+        "name": "puppet/systemd",
+        "version_requirement": ">= 3.0.0 < 4.0.0"
       }
     ]
   },
