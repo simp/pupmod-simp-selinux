@@ -31,7 +31,7 @@ describe 'selinux::install' do
           }
         end
 
-        it { is_expected.to contain_package('mcstrans').with_ensure(/A(present|installed)Z/) }
+        it { is_expected.to contain_package('mcstrans').with_ensure(/\A(present|installed)\Z/) }
       end
     end
   end
