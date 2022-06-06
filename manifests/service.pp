@@ -21,12 +21,11 @@ class selinux::service {
         $_proc_gid = $facts.dig('simplib__mountpoints', '/proc', 'options_hash', 'gid')
 
         if $_proc_gid {
-          simplib::assert_optional_dependency($module_name, 'camptocamp/systemd')
+          simplib::assert_optional_dependency($module_name, 'puppet/systemd')
 
           systemd::dropin_file { "${module_name}_mcstransd_hidepid_add_gid.conf":
             unit          => "${selinux::mcstrans_service_name}.service",
             notify        => Service[$selinux::mcstrans_service_name],
-            daemon_reload => 'eager',
             content       => @("SYSTEMD_OVERRIDE")
               [Service]
               SupplementaryGroups=${_proc_gid}

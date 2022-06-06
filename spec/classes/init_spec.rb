@@ -30,7 +30,7 @@ describe 'selinux' do
           SELINUXTYPE=targeted
           EOF
           ) }
-        it { is_expected.to contain_package('checkpolicy').with(ensure: 'present') }
+        it { is_expected.to contain_package('checkpolicy').with_ensure(/\A(present|installed)\Z/) }
         it { is_expected.not_to contain_package('mcstrans') }
         it { is_expected.not_to contain_service('mcstransd') }
 
@@ -38,7 +38,7 @@ describe 'selinux' do
           it { is_expected.not_to contain_package(policycoreutils_package) }
           it { is_expected.not_to create_service('restorecond') }
         else
-          it { is_expected.to contain_package(policycoreutils_package).with(ensure: 'present') }
+          it { is_expected.to contain_package(policycoreutils_package).with_ensure(/\A(present|installed)\Z/) }
           it { is_expected.to create_service('restorecond').with({
             enable: true,
             ensure: 'running'
@@ -54,7 +54,7 @@ describe 'selinux' do
           }
         end
 
-        it { is_expected.to contain_package('mcstrans').with(ensure: 'present') }
+        it { is_expected.to contain_package('mcstrans').with_ensure(/\A(present|installed)\Z/) }
 
         it { is_expected.to create_service(mcstrans_service).with({
             enable: true,
@@ -151,7 +151,7 @@ describe 'selinux' do
           EOF
           ) }
 
-        it { is_expected.to contain_package(policycoreutils_package).with(ensure: 'present') }
+        it { is_expected.to contain_package(policycoreutils_package).with_ensure(/\A(present|installed)\Z/) }
 
         it { is_expected.to create_service('restorecond').with(
           enable: true,

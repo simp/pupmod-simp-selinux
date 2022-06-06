@@ -15,7 +15,7 @@ describe 'selinux::install' do
         os_facts[:os][:release][:major].to_i >= 7 ? 'policycoreutils-restorecond' : 'policycoreutils'
       end
 
-      it { is_expected.to contain_package('checkpolicy').with(ensure: 'present') }
+      it { is_expected.to contain_package('checkpolicy').with(ensure: /\A(present|installed)\Z/) }
       it { is_expected.not_to contain_package('mcstrans') }
 
       if os_facts[:os][:release][:major].to_i >= 7
@@ -31,7 +31,7 @@ describe 'selinux::install' do
           }
         end
 
-        it { is_expected.to contain_package('mcstrans').with(ensure: 'present') }
+        it { is_expected.to contain_package('mcstrans').with_ensure(/A(present|installed)Z/) }
       end
     end
   end
