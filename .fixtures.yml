@@ -13,7 +13,9 @@ fixtures:
     simp_options: https://github.com/simp/pupmod-simp-simp_options.git
     simplib: https://github.com/simp/pupmod-simp-simplib.git
     stdlib: https://github.com/simp/puppetlabs-stdlib.git
-    systemd: https://github.com/simp/puppet-systemd.git
+    systemd:
+      repo: https://github.com/simp/puppet-systemd.git
+      branch: simp-master
     vox_selinux:
       repo: https://github.com/simp/pupmod-voxpupuli-selinux.git
       branch: simp-master
