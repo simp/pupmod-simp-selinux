@@ -1,3 +1,6 @@
+* Mon Jan 23 2023 Michael Riddle <mike@sicura.us> - 2.8.1
+- Added RHEL 9 support
+
 * Fri Jun 03 2022 Chris Tessmer <chris.tessmer@onyxpoint.com> - 2.8.0
 - Update from camptocamp/systemd to puppet/systemd
 

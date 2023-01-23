@@ -40,6 +40,7 @@ group :system_tests do
   gem 'beaker-rspec'
   gem 'simp-beaker-helpers', ENV['SIMP_BEAKER_HELPERS_VERSION'] || ['>= 1.28.0', '< 2']
   gem 'bcrypt_pbkdf'
+  gem 'net-ssh', '< 7.0' if Gem::Requirement.create('< 2.6').satisfied_by?(Gem::Version.new(RUBY_VERSION.dup))
 end
 
 # Evaluate extra gemfiles if they exist

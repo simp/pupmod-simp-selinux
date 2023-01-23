@@ -19,15 +19,23 @@ describe 'selinux class kernel enforcement' do
 
         host.reboot
 
-        result = on(host, 'cat /proc/cmdline').output.strip
-        result = Hash[result.split(/\s+/).grep(/=/).map{|x|
-          # Some RHS entries can contain '='
-          y = x.split('=')
-          [y[0], y[1..-1].join('=')]
-        }]
+        os_fact = fact_on(host, 'os')
+        # EL 9 machines don't appear to show selinux info on /proc/cmdline
+        # For those machines, check getenforce instead
+        if (os_fact['release']['major'].to_i > 8)
+          result = on(host, 'getenforce')
+          expect(result.stdout.strip).to eq('Enforcing')
+        else
+          result = on(host, 'cat /proc/cmdline').output.strip
+          result = Hash[result.split(/\s+/).grep(/=/).map{|x|
+            # Some RHS entries can contain '='
+            y = x.split('=')
+            [y[0], y[1..-1].join('=')]
+          }]
 
-        expect(result['selinux']).to eq('1')
-        expect(result['enforcing']).to eq('1')
+          expect(result['selinux']).to eq('1')
+          expect(result['enforcing']).to eq('1')
+        end
       end
 
       it 'should be idempotent' do
