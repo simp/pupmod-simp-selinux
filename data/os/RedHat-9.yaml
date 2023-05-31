@@ -1,0 +1,7 @@
+---
+# mcstrans package not a default package in redhat 9
+selinux::mcstrans_service_name: mcstransd
+
+selinux::manage_restorecond_package: false
+selinux::manage_restorecond_service: false
+selinux::restorecond_package_name: policycoreutils-restorecond
