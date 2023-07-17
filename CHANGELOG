@@ -1,3 +1,6 @@
+* Mon Jun 12 2023 Chris Tessmer <chris.tessmer@onyxpoint.com> - 2.9.0
+- Add RockyLinux 8 support
+
 * Mon Jan 23 2023 Michael Riddle <mike@sicura.us> - 2.8.1
 - Added RHEL 9 support
 

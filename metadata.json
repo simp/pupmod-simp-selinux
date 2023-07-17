@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "2.8.1",
+  "version": "2.9.0",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -15,7 +15,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 6.6.0 < 8.0.0"
+      "version_requirement": ">= 8.0.0 < 9.0.0"
     },
     {
       "name": "simp/simplib",
@@ -30,7 +30,7 @@
     "optional_dependencies": [
       {
         "name": "puppet/systemd",
-        "version_requirement": ">= 3.0.0 < 4.0.0"
+        "version_requirement": ">= 4.0.2 < 6.0.0"
       }
     ]
   },
@@ -53,6 +53,12 @@
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
         "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
         "8"
       ]
     }

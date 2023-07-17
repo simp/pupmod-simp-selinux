@@ -1,6 +1,25 @@
 require 'spec_helper'
 
 describe 'selinux' do
+  def mock_selinux_false_facts(os_facts)
+    os_facts[:selinux] = false
+    os_facts[:os][:selinux][:config_mode] = 'disabled'
+    os_facts[:os][:selinux][:current_mode] = 'disabled'
+    os_facts[:os][:selinux][:enabled] = false
+    os_facts[:os][:selinux][:enforced] = false
+    os_facts
+  end
+
+  def mock_selinux_enforcing_facts(os_facts)
+    os_facts[:selinux] = true
+    os_facts[:os][:selinux][:config_mode] = 'enforcing'
+    os_facts[:os][:selinux][:config_policy] = 'targeted'
+    os_facts[:os][:selinux][:current_mode] = 'enforcing'
+    os_facts[:os][:selinux][:enabled] = true
+    os_facts[:os][:selinux][:enforced] = true
+    os_facts
+  end
+
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) do
@@ -237,10 +256,11 @@ describe 'selinux' do
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(0).that_notifies('Reboot_notify[selinux]') }
           end
+
           context 'ensure -> disabled' do
             let(:facts) do
               os_facts = os_facts.dup
-              os_facts[:selinux] = false
+              os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
             let(:params) {{
@@ -254,7 +274,8 @@ describe 'selinux' do
           context 'ensure -> enforcing' do
             let(:facts) do
               os_facts = os_facts.dup
-              os_facts[:selinux] = false
+              os_facts = mock_selinux_false_facts(os_facts)
+              os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
             let(:params) {{
@@ -268,7 +289,7 @@ describe 'selinux' do
           context 'ensure -> true' do
             let(:facts) do
               os_facts = os_facts.dup
-              os_facts[:selinux] = false
+              os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
             let(:params) {{
@@ -282,7 +303,7 @@ describe 'selinux' do
           context 'ensure -> permissive' do
             let(:facts) do
               os_facts = os_facts.dup
-              os_facts[:selinux] = false
+              os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
             let(:params) {{
@@ -342,7 +363,7 @@ describe 'selinux' do
         context 'when selinux is not disabled' do
           let(:facts) do
             os_facts = os_facts.dup
-            os_facts[:selinux_current_mode] = 'enforcing'
+            os_facts = mock_selinux_enforcing_facts(os_facts)
             os_facts
           end
 

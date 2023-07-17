@@ -3,7 +3,7 @@
 class selinux::service {
   assert_private()
 
-  if ($selinux::state == 'disabled') or !$facts['selinux'] {
+  if ($selinux::state == 'disabled') or !$facts['os']['selinux']['enabled'] {
     $_aux_service_ensure = 'stopped'
   }
   else {
@@ -24,9 +24,9 @@ class selinux::service {
           simplib::assert_optional_dependency($module_name, 'puppet/systemd')
 
           systemd::dropin_file { "${module_name}_mcstransd_hidepid_add_gid.conf":
-            unit          => "${selinux::mcstrans_service_name}.service",
-            notify        => Service[$selinux::mcstrans_service_name],
-            content       => @("SYSTEMD_OVERRIDE")
+            unit    => "${selinux::mcstrans_service_name}.service",
+            notify  => Service[$selinux::mcstrans_service_name],
+            content => @("SYSTEMD_OVERRIDE")
               [Service]
               SupplementaryGroups=${_proc_gid}
               | SYSTEMD_OVERRIDE

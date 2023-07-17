@@ -11,8 +11,8 @@ class selinux::config {
     notify      => Reboot_notify['selinux']
   }
 
-  $_enabling  = !$facts['selinux'] and member(['enforcing','permissive'], $selinux::state)
-  $_disabling = $facts['selinux'] and !member(['enforcing','permissive'], $selinux::state)
+  $_enabling  = !$facts['os']['selinux']['enabled'] and member(['enforcing','permissive'], $selinux::state)
+  $_disabling = $facts['os']['selinux']['enabled'] and !member(['enforcing','permissive'], $selinux::state)
 
   if $selinux::kernel_enforce {
     if $selinux::state == 'disabled' {

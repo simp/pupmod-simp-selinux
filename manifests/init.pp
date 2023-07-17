@@ -93,7 +93,7 @@ class selinux (
   ~> Class['selinux::service']
 
   if $login_resources {
-    if $facts['selinux_current_mode'] and ($facts['selinux_current_mode'] != 'disabled') {
+    if $facts['os']['selinux']['current_mode'] and ($facts['os']['selinux']['current_mode'] != 'disabled') {
       create_resources('selinux_login', $login_resources)
     }
   }
