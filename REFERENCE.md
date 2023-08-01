@@ -7,9 +7,9 @@
 ### Classes
 
 * [`selinux`](#selinux)
-* [`selinux::config`](#selinuxconfig): Set global SELinux system parameters
-* [`selinux::install`](#selinuxinstall): Install selinux-related packages not managed by vox_selinux
-* [`selinux::service`](#selinuxservice): Ensures mcstrans and restorecond services managed
+* [`selinux::config`](#selinux--config): Set global SELinux system parameters
+* [`selinux::install`](#selinux--install): Install selinux-related packages not managed by vox_selinux
+* [`selinux::service`](#selinux--service): Ensures mcstrans and restorecond services managed
 
 ### Resource types
 
@@ -18,19 +18,34 @@
 
 ### Data types
 
-* [`Selinux::State`](#selinuxstate): Types of selinux enforcement
+* [`Selinux::State`](#Selinux--State): Types of selinux enforcement
 
 ## Classes
 
-### `selinux`
+### <a name="selinux"></a>`selinux`
 
 The selinux class.
 
 #### Parameters
 
-The following parameters are available in the `selinux` class.
+The following parameters are available in the `selinux` class:
 
-##### `package_ensure`
+* [`package_ensure`](#-selinux--package_ensure)
+* [`login_resources`](#-selinux--login_resources)
+* [`manage_mcstrans_package`](#-selinux--manage_mcstrans_package)
+* [`manage_mcstrans_service`](#-selinux--manage_mcstrans_service)
+* [`mcstrans_package_name`](#-selinux--mcstrans_package_name)
+* [`mcstrans_service_name`](#-selinux--mcstrans_service_name)
+* [`manage_restorecond_package`](#-selinux--manage_restorecond_package)
+* [`manage_restorecond_service`](#-selinux--manage_restorecond_service)
+* [`restorecond_package_name`](#-selinux--restorecond_package_name)
+* [`ensure`](#-selinux--ensure)
+* [`kernel_enforce`](#-selinux--kernel_enforce)
+* [`autorelabel`](#-selinux--autorelabel)
+* [`manage_utils_package`](#-selinux--manage_utils_package)
+* [`mode`](#-selinux--mode)
+
+##### <a name="-selinux--package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -38,7 +53,7 @@ The ensure status of packages to be installed
 
 Default value: `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' })`
 
-##### `login_resources`
+##### <a name="-selinux--login_resources"></a>`login_resources`
 
 Data type: `Optional[Hash]`
 
@@ -60,51 +75,51 @@ default.
       # using selinux::manage_mcstrans_service: true
       mls_range: "SystemLow-SystemHigh"
 
-Default value: ``undef``
+Default value: `undef`
 
-##### `manage_mcstrans_package`
-
-Data type: `Boolean`
-
-
-
-##### `manage_mcstrans_service`
+##### <a name="-selinux--manage_mcstrans_package"></a>`manage_mcstrans_package`
 
 Data type: `Boolean`
 
 
 
-##### `mcstrans_package_name`
+##### <a name="-selinux--manage_mcstrans_service"></a>`manage_mcstrans_service`
+
+Data type: `Boolean`
+
+
+
+##### <a name="-selinux--mcstrans_package_name"></a>`mcstrans_package_name`
 
 Data type: `String`
 
 
 
-##### `mcstrans_service_name`
+##### <a name="-selinux--mcstrans_service_name"></a>`mcstrans_service_name`
 
 Data type: `String`
 
 
 
-##### `manage_restorecond_package`
+##### <a name="-selinux--manage_restorecond_package"></a>`manage_restorecond_package`
 
 Data type: `Boolean`
 
 
 
-##### `manage_restorecond_service`
+##### <a name="-selinux--manage_restorecond_service"></a>`manage_restorecond_service`
 
 Data type: `Boolean`
 
 
 
-##### `restorecond_package_name`
+##### <a name="-selinux--restorecond_package_name"></a>`restorecond_package_name`
 
 Data type: `String`
 
 
 
-##### `ensure`
+##### <a name="-selinux--ensure"></a>`ensure`
 
 Data type: `Selinux::State`
 
@@ -112,31 +127,31 @@ Data type: `Selinux::State`
 
 Default value: `'enforcing'`
 
-##### `kernel_enforce`
+##### <a name="-selinux--kernel_enforce"></a>`kernel_enforce`
 
 Data type: `Boolean`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### `autorelabel`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_utils_package`
+##### <a name="-selinux--autorelabel"></a>`autorelabel`
 
 Data type: `Boolean`
 
 
 
-Default value: ``true``
+Default value: `false`
 
-##### `mode`
+##### <a name="-selinux--manage_utils_package"></a>`manage_utils_package`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
+
+##### <a name="-selinux--mode"></a>`mode`
 
 Data type: `Enum['targeted','mls']`
 
@@ -144,19 +159,27 @@ Data type: `Enum['targeted','mls']`
 
 Default value: `'targeted'`
 
-### `selinux::config`
+### <a name="selinux--config"></a>`selinux::config`
 
 Set global SELinux system parameters
 
-### `selinux::install`
+### <a name="selinux--install"></a>`selinux::install`
 
 Install selinux-related packages not managed by vox_selinux
 
 #### Parameters
 
-The following parameters are available in the `selinux::install` class.
+The following parameters are available in the `selinux::install` class:
 
-##### `manage_utils_package`
+* [`manage_utils_package`](#-selinux--install--manage_utils_package)
+* [`utils_packages`](#-selinux--install--utils_packages)
+* [`manage_mcstrans_package`](#-selinux--install--manage_mcstrans_package)
+* [`mcstrans_package_name`](#-selinux--install--mcstrans_package_name)
+* [`manage_restorecond_package`](#-selinux--install--manage_restorecond_package)
+* [`restorecond_package_name`](#-selinux--install--restorecond_package_name)
+* [`package_ensure`](#-selinux--install--package_ensure)
+
+##### <a name="-selinux--install--manage_utils_package"></a>`manage_utils_package`
 
 Data type: `Boolean`
 
@@ -164,7 +187,7 @@ Data type: `Boolean`
 
 Default value: `pick(getvar('selinux::manage_utils_package'), true)`
 
-##### `utils_packages`
+##### <a name="-selinux--install--utils_packages"></a>`utils_packages`
 
 Data type: `Array[String]`
 
@@ -172,7 +195,7 @@ Data type: `Array[String]`
 
 Default value: `['checkpolicy']`
 
-##### `manage_mcstrans_package`
+##### <a name="-selinux--install--manage_mcstrans_package"></a>`manage_mcstrans_package`
 
 Data type: `Boolean`
 
@@ -180,7 +203,7 @@ Data type: `Boolean`
 
 Default value: `simplib::lookup('selinux::manage_mcstrans_package')`
 
-##### `mcstrans_package_name`
+##### <a name="-selinux--install--mcstrans_package_name"></a>`mcstrans_package_name`
 
 Data type: `String`
 
@@ -188,7 +211,7 @@ Data type: `String`
 
 Default value: `simplib::lookup('selinux::mcstrans_package_name')`
 
-##### `manage_restorecond_package`
+##### <a name="-selinux--install--manage_restorecond_package"></a>`manage_restorecond_package`
 
 Data type: `Boolean`
 
@@ -196,7 +219,7 @@ Data type: `Boolean`
 
 Default value: `simplib::lookup('selinux::manage_restorecond_package')`
 
-##### `restorecond_package_name`
+##### <a name="-selinux--install--restorecond_package_name"></a>`restorecond_package_name`
 
 Data type: `String`
 
@@ -204,7 +227,7 @@ Data type: `String`
 
 Default value: `simplib::lookup('selinux::restorecond_package_name')`
 
-##### `package_ensure`
+##### <a name="-selinux--install--package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -212,13 +235,13 @@ Data type: `String`
 
 Default value: `simplib::lookup('selinux::package_ensure', { 'default_value' => simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' } ) } )`
 
-### `selinux::service`
+### <a name="selinux--service"></a>`selinux::service`
 
 Ensures mcstrans and restorecond services managed
 
 ## Resource types
 
-### `selinux_login`
+### <a name="selinux_login"></a>`selinux_login`
 
 Manage SELinux login mapping configuration
 
@@ -256,26 +279,30 @@ You can get a list by running `semanage user -l`
 
 The following parameters are available in the `selinux_login` type.
 
-##### `force`
+* [`force`](#-selinux_login--force)
+* [`name`](#-selinux_login--name)
+* [`provider`](#-selinux_login--provider)
 
-Valid values: ``true``, ``false``, `yes`, `no`
+##### <a name="-selinux_login--force"></a>`force`
+
+Valid values: `true`, `false`, `yes`, `no`
 
 Force the modification of potentially unsafe logins such as "root" and "__default__"
 
-Default value: ``false``
+Default value: `false`
 
-##### `name`
+##### <a name="-selinux_login--name"></a>`name`
 
 namevar
 
 The user or group name to be managed. Groups must be prefixed with a "%"
 
-##### `provider`
+##### <a name="-selinux_login--provider"></a>`provider`
 
 The specific backend to use for this `selinux_login` resource. You will seldom need to specify this --- Puppet will
 usually discover the appropriate provider for your platform.
 
-### `selinux_state`
+### <a name="selinux_state"></a>`selinux_state`
 
 Toggle the enforcement of selinux
 
@@ -285,7 +312,7 @@ The following properties are available in the `selinux_state` type.
 
 ##### `ensure`
 
-Valid values: ``false``, ``true``, `disabled`, `permissive`, `enforcing`
+Valid values: `false`, `true`, `disabled`, `permissive`, `enforcing`
 
 Set the SELinux state on the system
 
@@ -295,36 +322,44 @@ Default value: `enforcing`
 
 The following parameters are available in the `selinux_state` type.
 
-##### `autorelabel`
+* [`autorelabel`](#-selinux_state--autorelabel)
+* [`name`](#-selinux_state--name)
+* [`provider`](#-selinux_state--provider)
 
-Valid values: ``true``, ``false``, `yes`, `no`
+##### <a name="-selinux_state--autorelabel"></a>`autorelabel`
+
+Valid values: `true`, `false`, `yes`, `no`
 
 Automatically determine if the filesystem needs to be relabeled.
   Enforcing > Permissive > Disabled
 Going to the right requires relabeling.
 
-Default value: ``true``
+Default value: `true`
 
-##### `name`
+##### <a name="-selinux_state--name"></a>`name`
 
 namevar
 
 An arbitrary, but unique, name for the resource.
 
-##### `provider`
+##### <a name="-selinux_state--provider"></a>`provider`
 
 The specific backend to use for this `selinux_state` resource. You will seldom need to specify this --- Puppet will
 usually discover the appropriate provider for your platform.
 
 ## Data types
 
-### `Selinux::State`
+### <a name="Selinux--State"></a>`Selinux::State`
 
 Types of selinux enforcement
 
-Alias of `Variant[Boolean, Enum[
+Alias of
+
+```puppet
+Variant[Boolean, Enum[
     'enforcing',
     'permissive',
     'disabled'
-  ]]`
+  ]]
+```
 
