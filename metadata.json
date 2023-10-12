@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -15,22 +15,22 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 8.0.0 < 9.0.0"
+      "version_requirement": ">= 8.0.0 < 10.0.0"
     },
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 3.1.0 < 5.0.0"
+      "version_requirement": ">= 4.9.0 < 5.0.0"
     },
     {
       "name": "simp/vox_selinux",
-      "version_requirement": ">= 3.0.0 < 4.0.0"
+      "version_requirement": ">= 3.1.0 < 4.0.0"
     }
   ],
   "simp": {
     "optional_dependencies": [
       {
         "name": "puppet/systemd",
-        "version_requirement": ">= 4.0.2 < 6.0.0"
+        "version_requirement": ">= 4.0.2 < 7.0.0"
       }
     ]
   },
@@ -72,7 +72,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 6.22.1 < 8.0.0"
+      "version_requirement": ">= 7.0.0 < 9.0.0"
     }
   ]
 }
