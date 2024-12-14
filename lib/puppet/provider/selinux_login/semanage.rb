@@ -17,7 +17,7 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
     unless selinux_policy
       if File.exist?('/etc/selinux/config')
 
-        selinux_type_entry = File.read('/etc/selinux/config').lines.grep(/\A\s*SELINUXTYPE=/).last
+        selinux_type_entry = File.read('/etc/selinux/config').lines.grep(%r{\A\s*SELINUXTYPE=}).last
 
         if selinux_type_entry
           selinux_policy = selinux_type_entry.split('=').last.strip
@@ -34,22 +34,20 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
 
       if File.exist?(setrans_file)
         @setrans_table = Hash[
-          File.read(setrans_file).lines.map do |line|
-            if line =~ /^\s*#/
+          File.read(setrans_file).lines.map { |line|
+            if %r{^\s*#}.match?(line)
               nil
             else
               line.strip.split('=').reverse
             end
-          end.compact
+          }.compact
         ]
       end
     end
 
-    if @setrans_table[category]
-      return @setrans_table[category]
-    else
-      return category
-    end
+    return @setrans_table[category] if @setrans_table[category]
+
+    category
   end
 
   def setrans(category)
@@ -62,12 +60,12 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
     # We're calling this instead of using a Python helper because the internal
     # Python logic is not a simple resource mapping
     semanage('login', '-l', '-n').lines.each do |entry|
-      login, seuser, mls_range = entry.strip.split(/\s+/)
+      login, seuser, mls_range = entry.strip.split(%r{\s+})
 
       resource = {
-        :ensure    => :present,
-        :name      => login,
-        :seuser    => seuser
+        ensure: :present,
+        name: login,
+        seuser: seuser
       }
 
       # Not all environments are MLS enabled
@@ -81,7 +79,7 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
 
   def self.prefetch(resources)
     instances.each do |prov|
-      if resource = resources[prov.name]
+      if (resource = resources[prov.name])
         resource.provider = prov
       end
     end
@@ -134,8 +132,7 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
     semanage(args)
 
     # Changing any of these is cause to relabel everything at the next boot
-    if ['__default__', 'root'].include?(@resource[:name])
-      touch '/.autorelabel'
-    end
+    return unless ['__default__', 'root'].include?(@resource[:name])
+    touch '/.autorelabel'
   end
 end
