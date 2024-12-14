@@ -27,16 +27,17 @@ describe 'selinux' do
       end
 
       let(:mcstrans_service) do
-        os_facts[:os][:release][:major].to_i >= 7 ? 'mcstransd' : 'mcstrans'
+        (os_facts[:os][:release][:major].to_i >= 7) ? 'mcstransd' : 'mcstrans'
       end
 
       let(:policycoreutils_package) do
-        os_facts[:os][:release][:major].to_i >= 7 ? 'policycoreutils-restorecond' : 'policycoreutils'
+        (os_facts[:os][:release][:major].to_i >= 7) ? 'policycoreutils-restorecond' : 'policycoreutils'
       end
 
       context 'with default parameters' do
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
+        it {
+          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
           # This file controls the state of SELinux on the system.
           # SELINUX= can take one of these three values:
           # enforcing - SELinux security policy is enforced.
@@ -48,8 +49,9 @@ describe 'selinux' do
           # strict - Full SELinux protection.
           SELINUXTYPE=targeted
           EOF
-          ) }
-        it { is_expected.to contain_package('checkpolicy').with_ensure(/\A(present|installed)\Z/) }
+                                                                        )
+        }
+        it { is_expected.to contain_package('checkpolicy').with_ensure(%r{\A(present|installed)\Z}) }
         it { is_expected.not_to contain_package('mcstrans') }
         it { is_expected.not_to contain_service('mcstransd') }
 
@@ -57,42 +59,46 @@ describe 'selinux' do
           it { is_expected.not_to contain_package(policycoreutils_package) }
           it { is_expected.not_to create_service('restorecond') }
         else
-          it { is_expected.to contain_package(policycoreutils_package).with_ensure(/\A(present|installed)\Z/) }
-          it { is_expected.to create_service('restorecond').with({
-            enable: true,
+          it { is_expected.to contain_package(policycoreutils_package).with_ensure(%r{\A(present|installed)\Z}) }
+          it {
+            is_expected.to create_service('restorecond').with({
+                                                                enable: true,
             ensure: 'running'
-          }) }
+                                                              })
+          }
         end
       end
 
       context 'when managing mcstrans' do
         let(:params) do
           {
-            :manage_mcstrans_package => true,
-            :manage_mcstrans_service => true
+            manage_mcstrans_package: true,
+            manage_mcstrans_service: true
           }
         end
 
-        it { is_expected.to contain_package('mcstrans').with_ensure(/\A(present|installed)\Z/) }
+        it { is_expected.to contain_package('mcstrans').with_ensure(%r{\A(present|installed)\Z}) }
 
-        it { is_expected.to create_service(mcstrans_service).with({
-            enable: true,
+        it {
+          is_expected.to create_service(mcstrans_service).with({
+                                                                 enable: true,
             ensure: 'running'
-        }) }
+                                                               })
+        }
 
         if Array(os_facts[:init_systems]).include?('systemd')
           context 'when hidepid=2 on /proc' do
             let(:facts) do
               os_facts.merge(
                 {
-                  :simplib__mountpoints => {
+                  simplib__mountpoints: {
                     '/proc' => {
                       'options_hash' => {
                         'hidepid' => 2
                       }
                     }
                   }
-                }
+                },
               )
             end
 
@@ -107,7 +113,7 @@ describe 'selinux' do
               let(:facts) do
                 os_facts.merge(
                   {
-                    :simplib__mountpoints => {
+                    simplib__mountpoints: {
                       '/proc' => {
                         'options_hash' => {
                           'hidepid' => 2,
@@ -115,7 +121,7 @@ describe 'selinux' do
                         }
                       }
                     }
-                  }
+                  },
                 )
               end
 
@@ -123,7 +129,7 @@ describe 'selinux' do
               it do
                 is_expected.to create_systemd__dropin_file('selinux_mcstransd_hidepid_add_gid.conf')
                   .with_unit("#{mcstrans_service}.service")
-                  .with_content(/SupplementaryGroups=#{proc_gid}/)
+                  .with_content(%r{SupplementaryGroups=#{proc_gid}})
                   .that_notifies("Service[#{mcstrans_service}]")
               end
             end
@@ -132,9 +138,11 @@ describe 'selinux' do
       end
 
       context 'with ensure set to a non-boolean' do
-        let(:params) {{ ensure: 'permissive' }}
+        let(:params) { { ensure: 'permissive' } }
+
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
+        it {
+          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
           # This file controls the state of SELinux on the system.
           # SELINUX= can take one of these three values:
           # enforcing - SELinux security policy is enforced.
@@ -146,17 +154,22 @@ describe 'selinux' do
           # strict - Full SELinux protection.
           SELINUXTYPE=targeted
           EOF
-          ) }
+                                                                        )
+        }
       end
 
       context 'with ensure set to false and restorecond enabled' do
-        let(:params) {{
-          ensure: false,
-          manage_restorecond_package: true,
-          manage_restorecond_service: true
-        }}
+        let(:params) do
+          {
+            ensure: false,
+         manage_restorecond_package: true,
+         manage_restorecond_service: true
+          }
+        end
+
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
+        it {
+          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
           # This file controls the state of SELinux on the system.
           # SELINUX= can take one of these three values:
           # enforcing - SELinux security policy is enforced.
@@ -168,20 +181,25 @@ describe 'selinux' do
           # strict - Full SELinux protection.
           SELINUXTYPE=targeted
           EOF
-          ) }
+                                                                        )
+        }
 
-        it { is_expected.to contain_package(policycoreutils_package).with_ensure(/\A(present|installed)\Z/) }
+        it { is_expected.to contain_package(policycoreutils_package).with_ensure(%r{\A(present|installed)\Z}) }
 
-        it { is_expected.to create_service('restorecond').with(
+        it {
+          is_expected.to create_service('restorecond').with(
           enable: true,
-          ensure: 'stopped'
-        ) }
+          ensure: 'stopped',
+        )
+        }
       end
 
       context 'with mode set' do
-        let(:params) {{ mode: 'mls' }}
+        let(:params) { { mode: 'mls' } }
+
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(/^\s+/,'')
+        it {
+          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
           # This file controls the state of SELinux on the system.
           # SELINUX= can take one of these three values:
           # enforcing - SELinux security policy is enforced.
@@ -193,12 +211,14 @@ describe 'selinux' do
           # strict - Full SELinux protection.
           SELINUXTYPE=mls
           EOF
-          ) }
+                                                                        )
+        }
       end
 
       context 'with manage_utils_package => false' do
-        let(:params) {{ manage_utils_package: false }}
-        it { is_expected.to_not contain_package('checkpolicy') }
+        let(:params) { { manage_utils_package: false } }
+
+        it { is_expected.not_to contain_package('checkpolicy') }
       end
 
       context 'modifying kernel state' do
@@ -206,16 +226,19 @@ describe 'selinux' do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to create_reboot_notify('selinux') }
           it { is_expected.to create_selinux_state('set_selinux_state').that_notifies('Reboot_notify[selinux]') }
-          it { is_expected.to_not create_kernel_parameter('selinux') }
-          it { is_expected.to_not create_kernel_parameter('enforcing') }
+          it { is_expected.not_to create_kernel_parameter('selinux') }
+          it { is_expected.not_to create_kernel_parameter('enforcing') }
         end
 
         context 'with kernel enforcement' do
           context 'ensure -> enforcing' do
-            let(:params) {{
-              ensure: 'enforcing',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'enforcing',
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(1).that_notifies('Reboot_notify[selinux]') }
@@ -224,34 +247,43 @@ describe 'selinux' do
             let(:facts) do
               os_facts
             end
-            let(:params) {{
-              ensure: 'disabled',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'disabled',
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(0).that_notifies('Reboot_notify[selinux]') }
-            it { is_expected.to_not create_kernel_parameter('enforcing') }
+            it { is_expected.not_to create_kernel_parameter('enforcing') }
           end
           context 'ensure -> false' do
             let(:facts) do
               os_facts
             end
-            let(:params) {{
-              ensure: false,
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: false,
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(0).that_notifies('Reboot_notify[selinux]') }
-            it { is_expected.to_not create_kernel_parameter('enforcing') }
+            it { is_expected.not_to create_kernel_parameter('enforcing') }
           end
           context 'ensure -> permissive' do
             let(:facts) do
               os_facts
             end
-            let(:params) {{
-              ensure: 'permissive',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'permissive',
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(0).that_notifies('Reboot_notify[selinux]') }
@@ -263,13 +295,16 @@ describe 'selinux' do
               os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
-            let(:params) {{
-              ensure: 'disabled',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'disabled',
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(0).that_notifies('Reboot_notify[selinux]') }
-            it { is_expected.to_not create_kernel_parameter('enforcing') }
+            it { is_expected.not_to create_kernel_parameter('enforcing') }
           end
           context 'ensure -> enforcing' do
             let(:facts) do
@@ -278,10 +313,13 @@ describe 'selinux' do
               os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
-            let(:params) {{
-              ensure: 'enforcing',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'enforcing',
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(1).that_notifies('Reboot_notify[selinux]') }
@@ -292,10 +330,13 @@ describe 'selinux' do
               os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
-            let(:params) {{
-              ensure: true,
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: true,
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(1).that_notifies('Reboot_notify[selinux]') }
@@ -306,10 +347,13 @@ describe 'selinux' do
               os_facts = mock_selinux_false_facts(os_facts)
               os_facts
             end
-            let(:params) {{
-              ensure: 'permissive',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'permissive',
+             kernel_enforce: true
+              }
+            end
+
             it { is_expected.to compile.with_all_deps }
             it { is_expected.to create_kernel_parameter('selinux').with_value(1).that_notifies('Reboot_notify[selinux]') }
             it { is_expected.to create_kernel_parameter('enforcing').with_value(0).that_notifies('Reboot_notify[selinux]') }
@@ -320,33 +364,38 @@ describe 'selinux' do
               os_facts[:selinux] = true
               os_facts
             end
-            let(:params) {{
-              ensure: 'enforcing',
-              kernel_enforce: true
-            }}
+            let(:params) do
+              {
+                ensure: 'enforcing',
+             kernel_enforce: true
+              }
+            end
             let(:pre_condition) do
               <<~END
                 vox_selinux::boolean { 'use_nfs_home_dirs': }
               END
             end
+
             it { is_expected.to compile.with_all_deps }
           end
         end
       end
 
       context 'with login_resources set' do
-        let(:params) {{
-          :login_resources => {
-            '__default__' => {
-              'seuser'    => 'user_u',
-              'mls_range' => 'SystemLow'
-            },
-            'vagrant'     => {
-              'seuser'    => 'staff_u',
-              'mls_range' => 'SystemLow-SystemHigh'
+        let(:params) do
+          {
+            login_resources: {
+              '__default__' => {
+                'seuser'    => 'user_u',
+                'mls_range' => 'SystemLow'
+              },
+              'vagrant'     => {
+                'seuser'    => 'staff_u',
+                'mls_range' => 'SystemLow-SystemHigh'
+              }
             }
           }
-        }}
+        end
 
         context 'when selinux disabled' do
           let(:facts) do
@@ -356,8 +405,8 @@ describe 'selinux' do
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to_not create_selinux_login('__default__') }
-          it { is_expected.to_not create_selinux_login('vagrant') }
+          it { is_expected.not_to create_selinux_login('__default__') }
+          it { is_expected.not_to create_selinux_login('vagrant') }
         end
 
         context 'when selinux is not disabled' do
@@ -368,12 +417,14 @@ describe 'selinux' do
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to create_selinux_login('__default__')
-             .with_seuser('user_u').with_mls_range('SystemLow')
+          it {
+            is_expected.to create_selinux_login('__default__')
+              .with_seuser('user_u').with_mls_range('SystemLow')
           }
 
-          it { is_expected.to create_selinux_login('vagrant')
-             .with_seuser('staff_u').with_mls_range('SystemLow-SystemHigh')
+          it {
+            is_expected.to create_selinux_login('vagrant')
+              .with_seuser('staff_u').with_mls_range('SystemLow-SystemHigh')
           }
         end
       end

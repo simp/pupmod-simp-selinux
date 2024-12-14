@@ -1,19 +1,20 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:selinux_login).provider(:semanage) do
+  let(:resource_hash) do
+    {
+      name: 'test_user',
+    seuser: 'user_u'
+    }
+  end
 
-  let(:resource_hash) {{
-    :name   => 'test_user',
-    :seuser => 'user_u'
-  }}
-
-  let(:resource) {
+  let(:resource) do
     Puppet::Type.type(:selinux_login).new(resource_hash)
-  }
+  end
 
-  let(:provider) {
+  let(:provider) do
     Puppet::Type.type(:selinux_login).provider(:semanage).new(resource)
-  }
+  end
 
   before(:each) do
     allow(Facter).to receive(:value).with(:selinux).and_return(true)
@@ -25,7 +26,7 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
     allow(provider.class).to receive(:commands).with(:touch).and_return('/bin/touch')
 
     allow(provider.class).to receive(:semanage).with('login', '-l', '-n').and_return(
-      <<-EOM
+      <<-EOM,
 __default__          unconfined_u         s0-s0:c0.c1023       *
 root                 unconfined_u         s0-s0:c0.c1023       *
       EOM
@@ -39,20 +40,20 @@ root                 unconfined_u         s0-s0:c0.c1023       *
     it 'collects all instances' do
       instances = provider.class.instances
 
-      expect(instances.map{|x| x.instance_variable_get('@property_hash')}).to eq([
-        {
-          :ensure    => :present,
-          :name      => '__default__',
-          :seuser    => 'unconfined_u',
-          :mls_range => 's0-s0:c0.c1023'
-        },
-        {
-          :ensure    => :present,
-          :name      => 'root',
-          :seuser    => 'unconfined_u',
-          :mls_range => 's0-s0:c0.c1023'
-        }
-      ])
+      expect(instances.map { |x| x.instance_variable_get('@property_hash') }).to eq([
+                                                                                      {
+                                                                                        ensure: :present,
+                                                                                        name: '__default__',
+                                                                                        seuser: 'unconfined_u',
+                                                                                        mls_range: 's0-s0:c0.c1023'
+                                                                                      },
+                                                                                      {
+                                                                                        ensure: :present,
+                                                                                        name: 'root',
+                                                                                        seuser: 'unconfined_u',
+                                                                                        mls_range: 's0-s0:c0.c1023'
+                                                                                      },
+                                                                                    ])
     end
   end
 
@@ -65,12 +66,12 @@ root                 unconfined_u         s0-s0:c0.c1023       *
   end
 
   context 'destroy' do
-    let(:resource) {
+    let(:resource) do
       Puppet::Type.type(:selinux_login).new(
         name: resource_hash[:name],
-        ensure: 'absent'
+        ensure: 'absent',
       )
-    }
+    end
 
     it 'can destroy a resource' do
       allow(provider.class).to receive(:semanage).with('login', '-d', resource_hash[:name]).and_return('')
@@ -84,7 +85,7 @@ root                 unconfined_u         s0-s0:c0.c1023       *
       before(:each) do
         allow(File).to receive(:exist?).with('/etc/selinux/targeted/setrans.conf').and_return(true)
         allow(File).to receive(:read).with('/etc/selinux/targeted/setrans.conf').and_return(
-          <<-EOM
+          <<-EOM,
   # s0:c1,c3=CompanyConfidentialBob
   s0=SystemLow
   s0-s0:c0.c1023=SystemLow-SystemHigh
@@ -94,12 +95,12 @@ root                 unconfined_u         s0-s0:c0.c1023       *
       end
 
       context 'does not need translation' do
-        let(:resource) {
+        let(:resource) do
           Puppet::Type.type(:selinux_login).new(
             name: resource_hash[:name],
-            mls_range: 's0-s0:c0.c1023'
+            mls_range: 's0-s0:c0.c1023',
           )
-        }
+        end
 
         it 'is in sync' do
           allow(provider).to receive(:mls_range).and_return('s0-s0:c0.c1023')
@@ -108,12 +109,12 @@ root                 unconfined_u         s0-s0:c0.c1023       *
       end
 
       context 'needs translation' do
-        let(:resource) {
+        let(:resource) do
           Puppet::Type.type(:selinux_login).new(
             name: resource_hash[:name],
-            mls_range: 'SystemLow-SystemHigh'
+            mls_range: 'SystemLow-SystemHigh',
           )
-        }
+        end
 
         it 'translates valid MLS ranges' do
           allow(provider).to receive(:mls_range).and_return('s0-s0:c0.c1023')
@@ -133,12 +134,12 @@ root                 unconfined_u         s0-s0:c0.c1023       *
       end
 
       context 'ignores the :mls_range setting' do
-        let(:resource) {
+        let(:resource) do
           Puppet::Type.type(:selinux_login).new(
             name: resource_hash[:name],
-            mls_range: 'bob'
+            mls_range: 'bob',
           )
-        }
+        end
 
         it 'is in sync' do
           allow(provider).to receive(:mls_range).and_return(nil)
@@ -159,10 +160,12 @@ root                 unconfined_u         s0-s0:c0.c1023       *
     end
 
     context 'when :mls_range is specified' do
-      let(:resource_hash) {{
-        :name      => 'test_user',
-        :mls_range => 'SystemLow'
-      }}
+      let(:resource_hash) do
+        {
+          name: 'test_user',
+        mls_range: 'SystemLow'
+        }
+      end
 
       it 'modifies the :mls_range' do
         allow(provider.class).to receive(:semanage).with(['login', '-m', '-r', resource_hash[:mls_range], resource_hash[:name]]).and_return('')
@@ -172,11 +175,13 @@ root                 unconfined_u         s0-s0:c0.c1023       *
     end
 
     context 'when :seuser and :mls_range are specified' do
-      let(:resource_hash) {{
-        :name      => 'test_user',
-        :seuser    => 'user_u',
-        :mls_range => 'SystemLow'
-      }}
+      let(:resource_hash) do
+        {
+          name: 'test_user',
+        seuser: 'user_u',
+        mls_range: 'SystemLow'
+        }
+      end
 
       it 'modifies :seuser and :mls_range' do
         allow(provider.class).to receive(:semanage).with(['login', '-m', '-s', resource_hash[:seuser], '-r', resource_hash[:mls_range], resource_hash[:name]]).and_return('')

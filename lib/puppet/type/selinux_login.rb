@@ -12,11 +12,11 @@ Puppet::Type.newtype(:selinux_login) do
 
   ensurable
 
-  newparam(:name, :namevar => true) do
+  newparam(:name, namevar: true) do
     desc 'The user or group name to be managed. Groups must be prefixed with a "%"'
   end
 
-  newparam(:force, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+  newparam(:force, boolean: true, parent: Puppet::Parameter::Boolean) do
     desc 'Force the modification of potentially unsafe logins such as "root" and "__default__"'
 
     defaultto 'false'
@@ -28,13 +28,13 @@ Puppet::Type.newtype(:selinux_login) do
       You can get a list by running `semanage user -l`
     EOM
 
-    newvalues(/^.+$/)
+    newvalues(%r{^.+$})
   end
 
   newproperty(:mls_range) do
     desc 'The Multi-Level Security range to be applied to the login'
 
-    newvalues(/^.+$/)
+    newvalues(%r{^.+$})
 
     def insync?(is)
       provider.mls_range?(is, should)

@@ -8,14 +8,14 @@ describe 'selinux::install' do
       end
 
       let(:mcstrans_service) do
-        os_facts[:os][:release][:major].to_i >= 7 ? 'mcstransd' : 'mcstrans'
+        (os_facts[:os][:release][:major].to_i >= 7) ? 'mcstransd' : 'mcstrans'
       end
 
       let(:policycoreutils_package) do
-        os_facts[:os][:release][:major].to_i >= 7 ? 'policycoreutils-restorecond' : 'policycoreutils'
+        (os_facts[:os][:release][:major].to_i >= 7) ? 'policycoreutils-restorecond' : 'policycoreutils'
       end
 
-      it { is_expected.to contain_package('checkpolicy').with(ensure: /\A(present|installed)\Z/) }
+      it { is_expected.to contain_package('checkpolicy').with(ensure: %r{\A(present|installed)\Z}) }
       it { is_expected.not_to contain_package('mcstrans') }
 
       if os_facts[:os][:release][:major].to_i >= 7
@@ -27,11 +27,11 @@ describe 'selinux::install' do
       context 'when managing mcstrans' do
         let(:params) do
           {
-            :manage_mcstrans_package => true,
+            manage_mcstrans_package: true,
           }
         end
 
-        it { is_expected.to contain_package('mcstrans').with_ensure(/\A(present|installed)\Z/) }
+        it { is_expected.to contain_package('mcstrans').with_ensure(%r{\A(present|installed)\Z}) }
       end
     end
   end
