@@ -51,7 +51,7 @@ describe 'selinux with /proc hidepid' do
       end
 
       it 'has issues with MCS translation' do
-        on(host, 'ls -Z / | grep SystemLow', :acceptable_exit_codes => [1])
+        on(host, 'ls -Z / | grep SystemLow', acceptable_exit_codes: [1])
       end
 
       it 'applies with no errors' do
