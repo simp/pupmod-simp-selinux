@@ -1,19 +1,35 @@
 ---
 HOSTS:
-  el7:
+  centos10:
     roles:
-    - default
-    platform: el-7-x86_64
-    box: centos/7
+    - server
+    platform: el-10-x86_64
+    box: danilapog/base-centos10
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     yum_repos:
       chef-current:
-        baseurl: https://packages.chef.io/repos/yum/current/el/7/$basearch
+        baseurl: https://packages.chef.io/repos/yum/current/el/8/$basearch
         gpgkeys:
         - https://packages.chef.io/chef.asc
-    family: centos-cloud/centos-7
+    family: centos-cloud/centos-stream-10
     gce_machine_type: n1-standard-2
-  el8:
+  centos9:
+    roles:
+    - server
+    - master
+    platform: el-9-x86_64
+    box: generic/centos9s
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
+    yum_repos:
+      chef-current:
+        baseurl: https://packages.chef.io/repos/yum/current/el/9/$basearch
+        gpgkeys:
+        - https://packages.chef.io/chef.asc
+    family: centos-cloud/centos-stream-9
+    gce_machine_type: n1-standard-2
+  centos8:
+    roles:
+    - default
     platform: el-8-x86_64
     box: generic/centos8
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
@@ -27,4 +43,4 @@ HOSTS:
 CONFIG:
   log_level: verbose
   type: aio
-  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'puppet7') %>"
+  puppet_collection: <%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'openvox8') %>
