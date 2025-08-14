@@ -30,7 +30,7 @@
     "optional_dependencies": [
       {
         "name": "puppet/systemd",
-        "version_requirement": ">= 4.0.2 < 8.0.0"
+        "version_requirement": ">= 4.0.2 < 9.0.0"
       }
     ]
   },
