@@ -4,11 +4,11 @@ HOSTS:
     roles:
     - server
     platform: el-10-x86_64
-    box: danilapog/base-centos10
+    box: centos/stream10
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     yum_repos:
       chef-current:
-        baseurl: https://packages.chef.io/repos/yum/current/el/8/$basearch
+        baseurl: https://packages.chef.io/repos/yum/current/el/9/$basearch
         gpgkeys:
         - https://packages.chef.io/chef.asc
     family: centos-cloud/centos-stream-10
@@ -26,19 +26,6 @@ HOSTS:
         gpgkeys:
         - https://packages.chef.io/chef.asc
     family: centos-cloud/centos-stream-9
-    gce_machine_type: n1-standard-2
-  centos8:
-    roles:
-    - default
-    platform: el-8-x86_64
-    box: generic/centos8
-    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
-    yum_repos:
-      chef-current:
-        baseurl: https://packages.chef.io/repos/yum/current/el/8/$basearch
-        gpgkeys:
-        - https://packages.chef.io/chef.asc
-    family: centos-cloud/centos-stream-8
     gce_machine_type: n1-standard-2
 CONFIG:
   log_level: verbose
