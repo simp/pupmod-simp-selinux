@@ -1,5 +1,5 @@
 ---
-# mcstrans package not a default package in redhat 9
+# mcstrans package not a default package in redhat
 selinux::mcstrans_service_name: mcstransd
 
 selinux::manage_restorecond_package: false

@@ -1,18 +1,10 @@
 ---
 HOSTS:
-  oel7:
+  oel8:
     roles:
     - client
     - default
     - master
-    platform: el-7-x86_64
-    box: generic/oracle7
-    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
-    family: sicura-image-build/oracle-linux-7
-    gce_machine_type: n1-standard-2
-  oel8:
-    roles:
-    - client
     platform: el-8-x86_64
     box: generic/oracle8
     hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
