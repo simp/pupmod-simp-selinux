@@ -4,7 +4,7 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
   let(:resource_hash) do
     {
       name: 'test_user',
-    seuser: 'user_u'
+    seuser: 'user_u',
     }
   end
 
@@ -26,9 +26,9 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
     allow(provider.class).to receive(:commands).with(:touch).and_return('/bin/touch')
 
     allow(provider.class).to receive(:semanage).with('login', '-l', '-n').and_return(
-      <<-EOM,
-__default__          unconfined_u         s0-s0:c0.c1023       *
-root                 unconfined_u         s0-s0:c0.c1023       *
+      <<~EOM,
+        __default__          unconfined_u         s0-s0:c0.c1023       *
+        root                 unconfined_u         s0-s0:c0.c1023       *
       EOM
     )
 
@@ -45,13 +45,13 @@ root                 unconfined_u         s0-s0:c0.c1023       *
                                                                                         ensure: :present,
                                                                                         name: '__default__',
                                                                                         seuser: 'unconfined_u',
-                                                                                        mls_range: 's0-s0:c0.c1023'
+                                                                                        mls_range: 's0-s0:c0.c1023',
                                                                                       },
                                                                                       {
                                                                                         ensure: :present,
                                                                                         name: 'root',
                                                                                         seuser: 'unconfined_u',
-                                                                                        mls_range: 's0-s0:c0.c1023'
+                                                                                        mls_range: 's0-s0:c0.c1023',
                                                                                       },
                                                                                     ])
     end
@@ -163,7 +163,7 @@ root                 unconfined_u         s0-s0:c0.c1023       *
       let(:resource_hash) do
         {
           name: 'test_user',
-        mls_range: 'SystemLow'
+        mls_range: 'SystemLow',
         }
       end
 
@@ -179,7 +179,7 @@ root                 unconfined_u         s0-s0:c0.c1023       *
         {
           name: 'test_user',
         seuser: 'user_u',
-        mls_range: 'SystemLow'
+        mls_range: 'SystemLow',
         }
       end
 

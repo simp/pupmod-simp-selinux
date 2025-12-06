@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",

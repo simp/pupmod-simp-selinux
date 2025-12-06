@@ -40,7 +40,7 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
             else
               line.strip.split('=').reverse
             end
-          }.compact
+          }.compact,
         ]
       end
     end
@@ -65,7 +65,7 @@ Puppet::Type.type(:selinux_login).provide(:semanage) do
       resource = {
         ensure: :present,
         name: login,
-        seuser: seuser
+        seuser: seuser,
       }
 
       # Not all environments are MLS enabled

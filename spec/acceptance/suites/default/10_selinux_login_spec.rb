@@ -6,12 +6,12 @@ describe 'selinux_login' do
   hosts.each do |host|
     let(:login_context) { 'staff_u' }
     let(:hieradata) do
-      <<-EOM
----
-selinux::login_resources:
-  "__default__":
-    seuser: #{login_context}
-    mls_range: "s0-s0:c0.c1023"
+      <<~EOM
+        ---
+        selinux::login_resources:
+          "__default__":
+            seuser: #{login_context}
+            mls_range: "s0-s0:c0.c1023"
       EOM
     end
 

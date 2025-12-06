@@ -11,28 +11,28 @@ describe 'selinux STIG enforcement of simp profile' do
 
   let(:hieradata) do
     <<~EOF
-    ---
-    simp_options::pki: true
-    simp_options::pki::source: '/etc/pki/simp-testing/pki'
-    selinux::ensure: true
-    compliance_markup::enforcement:
-      - disa_stig
+      ---
+      simp_options::pki: true
+      simp_options::pki::source: '/etc/pki/simp-testing/pki'
+      selinux::ensure: true
+      compliance_markup::enforcement:
+        - disa_stig
     EOF
   end
 
   hosts.each do |host|
     let(:hiera_yaml) do
       <<~EOM
-      ---
-      version: 5
-      hierarchy:
-        - name: Common
-          path: common.yaml
-        - name: Compliance
-          lookup_key: compliance_markup::enforcement
-      defaults:
-        data_hash: yaml_data
-        datadir: "#{hiera_datadir(host)}"
+        ---
+        version: 5
+        hierarchy:
+          - name: Common
+            path: common.yaml
+          - name: Compliance
+            lookup_key: compliance_markup::enforcement
+        defaults:
+          data_hash: yaml_data
+          datadir: "#{hiera_datadir(host)}"
       EOM
     end
 

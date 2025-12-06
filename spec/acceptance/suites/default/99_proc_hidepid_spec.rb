@@ -7,10 +7,10 @@ test_name 'selinux with /proc hidepid'
 describe 'selinux with /proc hidepid' do
   let(:manifest) do
     <<~MANIFEST
-    class { 'selinux':
-      manage_mcstrans_package => true,
-      manage_mcstrans_service => true
-    }
+      class { 'selinux':
+        manage_mcstrans_package => true,
+        manage_mcstrans_service => true
+      }
     MANIFEST
   end
 
@@ -33,6 +33,7 @@ describe 'selinux with /proc hidepid' do
     end
 
     context "on #{host}" do
+      # rubocop:disable RSpec/RepeatedExample, RSpec/RepeatedDescription
       it 'remounts /proc with hidepid=2' do
         on(host, 'mount -o remount,hidepid=2 /proc')
       end
@@ -65,6 +66,7 @@ describe 'selinux with /proc hidepid' do
       it 'is idempotent' do
         apply_manifest_on(host, manifest, catch_changes: true)
       end
+      # rubocop:enable RSpec/RepeatedExample, RSpec/RepeatedDescription
     end
   end
 end

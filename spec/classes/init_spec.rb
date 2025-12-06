@@ -37,19 +37,18 @@ describe 'selinux' do
       context 'with default parameters' do
         it { is_expected.to compile.with_all_deps }
         it {
-          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
-          # This file controls the state of SELinux on the system.
-          # SELINUX= can take one of these three values:
-          # enforcing - SELinux security policy is enforced.
-          # permissive - SELinux prints warnings instead of enforcing.
-          # disabled - SELinux is fully disabled.
-          SELINUX=enforcing
-          # SELINUXTYPE= type of policy in use. Possible values are:
-          # targeted - Only targeted network daemons are protected.
-          # strict - Full SELinux protection.
-          SELINUXTYPE=targeted
+          is_expected.to create_file('/etc/selinux/config').with_content(<<~EOF)
+            # This file controls the state of SELinux on the system.
+            # SELINUX= can take one of these three values:
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
+            SELINUX=enforcing
+            # SELINUXTYPE= type of policy in use. Possible values are:
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
+            SELINUXTYPE=targeted
           EOF
-                                                                        )
         }
         it { is_expected.to contain_package('checkpolicy').with_ensure(%r{\A(present|installed)\Z}) }
         it { is_expected.not_to contain_package('mcstrans') }
@@ -61,10 +60,10 @@ describe 'selinux' do
         else
           it { is_expected.to contain_package(policycoreutils_package).with_ensure(%r{\A(present|installed)\Z}) }
           it {
-            is_expected.to create_service('restorecond').with({
-                                                                enable: true,
-            ensure: 'running'
-                                                              })
+            is_expected.to create_service('restorecond').with(
+              enable: true,
+              ensure: 'running',
+            )
           }
         end
       end
@@ -73,17 +72,17 @@ describe 'selinux' do
         let(:params) do
           {
             manage_mcstrans_package: true,
-            manage_mcstrans_service: true
+            manage_mcstrans_service: true,
           }
         end
 
         it { is_expected.to contain_package('mcstrans').with_ensure(%r{\A(present|installed)\Z}) }
 
         it {
-          is_expected.to create_service(mcstrans_service).with({
-                                                                 enable: true,
-            ensure: 'running'
-                                                               })
+          is_expected.to create_service(mcstrans_service).with(
+            enable: true,
+            ensure: 'running',
+          )
         }
 
         if Array(os_facts[:init_systems]).include?('systemd')
@@ -94,10 +93,10 @@ describe 'selinux' do
                   simplib__mountpoints: {
                     '/proc' => {
                       'options_hash' => {
-                        'hidepid' => 2
-                      }
-                    }
-                  }
+                        'hidepid' => 2,
+                      },
+                    },
+                  },
                 },
               )
             end
@@ -117,10 +116,10 @@ describe 'selinux' do
                       '/proc' => {
                         'options_hash' => {
                           'hidepid' => 2,
-                          'gid' => proc_gid
-                        }
-                      }
-                    }
+                          'gid' => proc_gid,
+                        },
+                      },
+                    },
                   },
                 )
               end
@@ -142,19 +141,18 @@ describe 'selinux' do
 
         it { is_expected.to compile.with_all_deps }
         it {
-          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
-          # This file controls the state of SELinux on the system.
-          # SELINUX= can take one of these three values:
-          # enforcing - SELinux security policy is enforced.
-          # permissive - SELinux prints warnings instead of enforcing.
-          # disabled - SELinux is fully disabled.
-          SELINUX=permissive
-          # SELINUXTYPE= type of policy in use. Possible values are:
-          # targeted - Only targeted network daemons are protected.
-          # strict - Full SELinux protection.
-          SELINUXTYPE=targeted
+          is_expected.to create_file('/etc/selinux/config').with_content(<<~EOF)
+            # This file controls the state of SELinux on the system.
+            # SELINUX= can take one of these three values:
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
+            SELINUX=permissive
+            # SELINUXTYPE= type of policy in use. Possible values are:
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
+            SELINUXTYPE=targeted
           EOF
-                                                                        )
         }
       end
 
@@ -162,35 +160,34 @@ describe 'selinux' do
         let(:params) do
           {
             ensure: false,
-         manage_restorecond_package: true,
-         manage_restorecond_service: true
+            manage_restorecond_package: true,
+            manage_restorecond_service: true,
           }
         end
 
         it { is_expected.to compile.with_all_deps }
         it {
-          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
-          # This file controls the state of SELinux on the system.
-          # SELINUX= can take one of these three values:
-          # enforcing - SELinux security policy is enforced.
-          # permissive - SELinux prints warnings instead of enforcing.
-          # disabled - SELinux is fully disabled.
-          SELINUX=disabled
-          # SELINUXTYPE= type of policy in use. Possible values are:
-          # targeted - Only targeted network daemons are protected.
-          # strict - Full SELinux protection.
-          SELINUXTYPE=targeted
+          is_expected.to create_file('/etc/selinux/config').with_content(<<~EOF)
+            # This file controls the state of SELinux on the system.
+            # SELINUX= can take one of these three values:
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
+            SELINUX=disabled
+            # SELINUXTYPE= type of policy in use. Possible values are:
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
+            SELINUXTYPE=targeted
           EOF
-                                                                        )
         }
 
         it { is_expected.to contain_package(policycoreutils_package).with_ensure(%r{\A(present|installed)\Z}) }
 
         it {
           is_expected.to create_service('restorecond').with(
-          enable: true,
-          ensure: 'stopped',
-        )
+            enable: true,
+            ensure: 'stopped',
+          )
         }
       end
 
@@ -199,19 +196,18 @@ describe 'selinux' do
 
         it { is_expected.to compile.with_all_deps }
         it {
-          is_expected.to create_file('/etc/selinux/config').with_content(<<-EOF.gsub(%r{^\s+}, ''),
-          # This file controls the state of SELinux on the system.
-          # SELINUX= can take one of these three values:
-          # enforcing - SELinux security policy is enforced.
-          # permissive - SELinux prints warnings instead of enforcing.
-          # disabled - SELinux is fully disabled.
-          SELINUX=enforcing
-          # SELINUXTYPE= type of policy in use. Possible values are:
-          # targeted - Only targeted network daemons are protected.
-          # strict - Full SELinux protection.
-          SELINUXTYPE=mls
+          is_expected.to create_file('/etc/selinux/config').with_content(<<~EOF)
+            # This file controls the state of SELinux on the system.
+            # SELINUX= can take one of these three values:
+            # enforcing - SELinux security policy is enforced.
+            # permissive - SELinux prints warnings instead of enforcing.
+            # disabled - SELinux is fully disabled.
+            SELINUX=enforcing
+            # SELINUXTYPE= type of policy in use. Possible values are:
+            # targeted - Only targeted network daemons are protected.
+            # strict - Full SELinux protection.
+            SELINUXTYPE=mls
           EOF
-                                                                        )
         }
       end
 
@@ -235,7 +231,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'enforcing',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -250,7 +246,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'disabled',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -265,7 +261,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: false,
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -280,7 +276,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'permissive',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -298,7 +294,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'disabled',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -316,7 +312,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'enforcing',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -333,7 +329,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: true,
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -350,7 +346,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'permissive',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
 
@@ -367,7 +363,7 @@ describe 'selinux' do
             let(:params) do
               {
                 ensure: 'enforcing',
-             kernel_enforce: true
+                kernel_enforce: true,
               }
             end
             let(:pre_condition) do
@@ -387,13 +383,13 @@ describe 'selinux' do
             login_resources: {
               '__default__' => {
                 'seuser'    => 'user_u',
-                'mls_range' => 'SystemLow'
+                'mls_range' => 'SystemLow',
               },
               'vagrant'     => {
                 'seuser'    => 'staff_u',
-                'mls_range' => 'SystemLow-SystemHigh'
-              }
-            }
+                'mls_range' => 'SystemLow-SystemHigh',
+              },
+            },
           }
         end
 

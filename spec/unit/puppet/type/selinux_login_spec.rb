@@ -5,7 +5,7 @@ describe Puppet::Type.type(:selinux_login) do
   it 'requires either :seuser or :mls_range' do
     expect {
       Puppet::Type.type(described_class.name).new({
-                                                    name: 'test_user'
+                                                    name: 'test_user',
                                                   })
     }.to raise_error(%r{must specify either :seuser or :mls_range})
   end
@@ -14,7 +14,7 @@ describe Puppet::Type.type(:selinux_login) do
     expect {
       Puppet::Type.type(described_class.name).new({
                                                     name: 'test_user',
-        seuser: 'user_u'
+        seuser: 'user_u',
                                                   })
     }.not_to raise_error
   end
@@ -23,7 +23,7 @@ describe Puppet::Type.type(:selinux_login) do
     expect {
       Puppet::Type.type(described_class.name).new({
                                                     name: 'test_user',
-        mls_range: 'SystemLow'
+        mls_range: 'SystemLow',
                                                   })
     }.not_to raise_error
   end
@@ -36,7 +36,7 @@ describe Puppet::Type.type(:selinux_login) do
         expect {
           Puppet::Type.type(described_class.name).new({
                                                         name: unsafe_login,
-            seuser: 'user_u'
+            seuser: 'user_u',
                                                       })
         }.not_to raise_error
       end
@@ -45,7 +45,7 @@ describe Puppet::Type.type(:selinux_login) do
         expect {
           Puppet::Type.type(described_class.name).new({
                                                         name: unsafe_login,
-            ensure: 'absent'
+            ensure: 'absent',
                                                       })
         }.to raise_error(%r{Refusing to remove.+#{unsafe_login}})
       end
@@ -55,7 +55,7 @@ describe Puppet::Type.type(:selinux_login) do
           Puppet::Type.type(described_class.name).new({
                                                         name: unsafe_login,
             ensure: 'absent',
-            force: true
+            force: true,
                                                       })
         }.not_to raise_error
       end
