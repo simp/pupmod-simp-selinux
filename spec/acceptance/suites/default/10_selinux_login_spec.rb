@@ -16,16 +16,16 @@ describe 'selinux_login' do
     end
 
     let(:manifest) do
-      <<-EOM
+      <<~EOM
         include 'selinux'
       EOM
     end
 
     let(:alt_manifest) do
-      <<-EOM
+      <<~EOM
         selinux_login{ '__default__':
           seuser    => '#{login_context}',
-          mls_range => 'SystemLow-SystemHigh'
+          mls_range => 'SystemLow-SystemHigh',
         }
       EOM
     end

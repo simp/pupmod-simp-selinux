@@ -4,7 +4,7 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
   let(:resource_hash) do
     {
       name: 'test_user',
-    seuser: 'user_u',
+      seuser: 'user_u',
     }
   end
 
@@ -40,20 +40,22 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
     it 'collects all instances' do
       instances = provider.class.instances
 
-      expect(instances.map { |x| x.instance_variable_get('@property_hash') }).to eq([
-                                                                                      {
-                                                                                        ensure: :present,
-                                                                                        name: '__default__',
-                                                                                        seuser: 'unconfined_u',
-                                                                                        mls_range: 's0-s0:c0.c1023',
-                                                                                      },
-                                                                                      {
-                                                                                        ensure: :present,
-                                                                                        name: 'root',
-                                                                                        seuser: 'unconfined_u',
-                                                                                        mls_range: 's0-s0:c0.c1023',
-                                                                                      },
-                                                                                    ])
+      expect(instances.map { |x| x.instance_variable_get('@property_hash') }).to eq(
+        [
+          {
+            ensure: :present,
+            name: '__default__',
+            seuser: 'unconfined_u',
+            mls_range: 's0-s0:c0.c1023',
+          },
+          {
+            ensure: :present,
+            name: 'root',
+            seuser: 'unconfined_u',
+            mls_range: 's0-s0:c0.c1023',
+          },
+        ],
+      )
     end
   end
 
@@ -85,11 +87,11 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
       before(:each) do
         allow(File).to receive(:exist?).with('/etc/selinux/targeted/setrans.conf').and_return(true)
         allow(File).to receive(:read).with('/etc/selinux/targeted/setrans.conf').and_return(
-          <<-EOM,
-  # s0:c1,c3=CompanyConfidentialBob
-  s0=SystemLow
-  s0-s0:c0.c1023=SystemLow-SystemHigh
-  s0:c0.c1023=SystemHigh
+          <<~EOM,
+            # s0:c1,c3=CompanyConfidentialBob
+            s0=SystemLow
+            s0-s0:c0.c1023=SystemLow-SystemHigh
+            s0:c0.c1023=SystemHigh
           EOM
         )
       end
@@ -163,7 +165,7 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
       let(:resource_hash) do
         {
           name: 'test_user',
-        mls_range: 'SystemLow',
+          mls_range: 'SystemLow',
         }
       end
 
@@ -178,8 +180,8 @@ describe Puppet::Type.type(:selinux_login).provider(:semanage) do
       let(:resource_hash) do
         {
           name: 'test_user',
-        seuser: 'user_u',
-        mls_range: 'SystemLow',
+          seuser: 'user_u',
+          mls_range: 'SystemLow',
         }
       end
 

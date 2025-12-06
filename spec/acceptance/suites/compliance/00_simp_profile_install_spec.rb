@@ -4,7 +4,7 @@ test_name 'selinux STIG enforcement of simp profile'
 
 describe 'selinux STIG enforcement of simp profile' do
   let(:manifest) do
-    <<-EOS
+    <<~EOS
       include 'selinux'
     EOS
   end

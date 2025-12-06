@@ -16,10 +16,10 @@ describe 'selinux class' do
       end
 
       it 'enables SELinux and set it to permissive' do
-        enable_selinux_manifest = <<-EOM
+        enable_selinux_manifest = <<~EOM
           class { 'selinux':
             ensure => 'permissive',
-            autorelabel => true
+            autorelabel => true,
           }
         EOM
 

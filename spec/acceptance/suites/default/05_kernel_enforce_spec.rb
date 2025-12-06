@@ -9,8 +9,8 @@ describe 'selinux class kernel enforcement' do
     context 'kernel enforcing' do
       let(:hieradata) do
         {
-          'selinux::ensure' => true,
-        'selinux::kernel_enforce' => true,
+          'selinux::ensure'         => true,
+          'selinux::kernel_enforce' => true,
         }
       end
 

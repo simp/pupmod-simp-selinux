@@ -9,7 +9,7 @@ describe 'selinux with /proc hidepid' do
     <<~MANIFEST
       class { 'selinux':
         manage_mcstrans_package => true,
-        manage_mcstrans_service => true
+        manage_mcstrans_service => true,
       }
     MANIFEST
   end

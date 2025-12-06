@@ -1,13 +1,13 @@
 require 'puppet/parameter/boolean'
 
 Puppet::Type.newtype(:selinux_login) do
-  @doc = <<-EOM
-  Manage SELinux login mapping configuration
+  @doc = <<~EOM
+    Manage SELinux login mapping configuration
 
-  NOTE: You may need to run `restorecon -RF` on any user home directories that
-  have their default contexts updated. This is particularly important for the
-  `__default__` login entry but cannot be automated given the potential load
-  and unintended system consequences.
+    NOTE: You may need to run `restorecon -RF` on any user home directories that
+    have their default contexts updated. This is particularly important for the
+    `__default__` login entry but cannot be automated given the potential load
+    and unintended system consequences.
   EOM
 
   ensurable
@@ -23,7 +23,7 @@ Puppet::Type.newtype(:selinux_login) do
   end
 
   newproperty(:seuser) do
-    desc <<-EOM
+    desc <<~EOM
       The SELinux user to which the login should be mapped.
       You can get a list by running `semanage user -l`
     EOM
