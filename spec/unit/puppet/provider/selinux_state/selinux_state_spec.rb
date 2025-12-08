@@ -1,17 +1,15 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:selinux_state).provider(:selinux_state) do
-
-  let(:resource) {
+  let(:resource) do
     Puppet::Type.type(:selinux_state).new(
       name: 'set_selinux_state',
-      autorelabel: true
+      autorelabel: true,
     )
-  }
-  let(:provider) {
+  end
+  let(:provider) do
     Puppet::Type.type(:selinux_state).provider(:selinux_state).new(resource)
-  }
-
+  end
 
   describe 'relabel?' do
     context 'enforcing -> enforcing' do
