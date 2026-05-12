@@ -8,7 +8,6 @@ fixtures:
     augeas_core: https://github.com/simp/pupmod-puppetlabs-augeas_core.git
     augeasproviders_core: https://github.com/simp/augeasproviders_core.git
     augeasproviders_grub: https://github.com/simp/augeasproviders_grub.git
-    compliance_markup: https://github.com/simp/pupmod-simp-compliance_markup.git
     selinux_core: https://github.com/simp/pupmod-puppetlabs-selinux_core.git
     simp_options: https://github.com/simp/pupmod-simp-simp_options.git
     simplib: https://github.com/simp/pupmod-simp-simplib.git
