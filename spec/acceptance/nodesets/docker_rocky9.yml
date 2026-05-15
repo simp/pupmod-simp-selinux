@@ -6,7 +6,7 @@ HOSTS:
     - master
     platform: el-9-x86_64
     hypervisor: docker
-    image: rockylinux:9
+    image: rockylinux/rockylinux:9
     docker_cmd: '/usr/sbin/init'
     docker_preserve_image: true
     docker_image_commands:
@@ -15,4 +15,4 @@ HOSTS:
 CONFIG:
   log_level: verbose
   type: aio
-  puppet_collection: <%= ENV.fetch('BEAKER_PUPPET_COLLECTION', '~') %>
+  puppet_collection: <%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'openvox8') %>
