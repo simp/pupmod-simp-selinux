@@ -35,9 +35,7 @@ Puppet::Type.newtype(:selinux_state) do
   # Autorequire ALL Selbooleans
   autorequire(:selboolean) do
     req = []
-    resource = catalog.resources.select do |r|
-      r.is_a?(Puppet::Type.type(:selboolean))
-    end
+    resource = catalog.resources.grep(Puppet::Type.type(:selboolean))
     unless resource.empty?
       req << resource
     end
