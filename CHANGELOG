@@ -1,5 +1,7 @@
 * Mon May 11 2026 Steven Pritchard <steve@sicura.us> - 4.0.0
 - Remove unmaintained Compliance Engine data
+- Drop support for end-of-life CentOS 8
+- Drop Puppet 7 support; require openvox >= 8 < 9
 
 * Sat Dec 06 2025 Steven Pritchard <steve@sicura.us> - 3.0.1
 - Clean up for rubocop
