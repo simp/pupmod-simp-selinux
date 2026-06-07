@@ -40,7 +40,7 @@ describe 'selinux class' do
         apply_manifest_on(host, manifest, catch_failures: true)
 
         result = on(host, 'getenforce')
-        expect(result.output).to match(%r{Enforcing})
+        expect(result.output).to include('Enforcing')
 
         result = on(host, %(source /etc/selinux/config && echo $SELINUX))
         expect(result.output.strip).to eq 'enforcing'
@@ -63,10 +63,10 @@ describe 'selinux class' do
       it 'disables selinux, set the current state to permissive, and require reboot' do
         set_hieradata_on(host, hieradata)
         agent_output = apply_manifest_on(host, manifest, catch_failures: true)
-        expect(agent_output.stdout).to match(%r{ensure changed 'enforcing' to 'disabled'})
+        expect(agent_output.stdout).to include("ensure changed 'enforcing' to 'disabled'")
         expect(agent_output.stdout).to match(%r{System Reboot Required Because:\n\s+selinux => A reboot is required to modify the selinux state})
         status = on(host, 'getenforce')
-        expect(status.output).to match(%r{Permissive})
+        expect(status.output).to include('Permissive')
         # This will not be idempotent until after reboot since the system will
         # always show as 'disabled'
       end
@@ -75,7 +75,7 @@ describe 'selinux class' do
         host.reboot
 
         status = on(host, 'getenforce')
-        expect(status.output).to match(%r{Disabled})
+        expect(status.output).to include('Disabled')
       end
 
       it 'is idempotent' do
@@ -93,18 +93,18 @@ describe 'selinux class' do
       it 'works with no errors and set selinux enforcing' do
         set_hieradata_on(host, hieradata)
         agent_output = apply_manifest_on(host, manifest, catch_failures: true)
-        expect(agent_output.stdout).to match(%r{ensure changed 'disabled' to 'enforcing'})
+        expect(agent_output.stdout).to include("ensure changed 'disabled' to 'enforcing'")
         expect(agent_output.stdout).to match(%r{System Reboot Required Because:\n\s+selinux => A reboot is required to modify the selinux state})
         status = on(host, 'getenforce')
         # Won't take effect until after reboot
-        expect(status.output).to match(%r{Disabled})
+        expect(status.output).to include('Disabled')
       end
 
       it 'is enforcing after reboot' do
         host.reboot
 
         status = on(host, 'getenforce')
-        expect(status.output).to match(%r{Enforcing})
+        expect(status.output).to include('Enforcing')
       end
 
       it 'is idempotent at the second run' do
