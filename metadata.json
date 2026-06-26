@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "source": "https://github.com/simp/pupmod-simp-selinux",
   "project_page": "https://github.com/simp/pupmod-simp-selinux",
-  "issues_url": "https://simp-project.atlassian.net",
+  "issues_url": "https://github.com/simp/pupmod-simp-selinux/issues",
   "tags": [
     "simp",
     "selinux",
@@ -19,7 +19,7 @@
     },
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 4.9.0 < 5.0.0"
+      "version_requirement": ">= 4.9.0 < 6.0.0"
     },
     {
       "name": "simp/vox_selinux",
@@ -30,7 +30,7 @@
     "optional_dependencies": [
       {
         "name": "puppet/systemd",
-        "version_requirement": ">= 4.0.2 < 9.0.0"
+        "version_requirement": ">= 4.0.2 < 10.0.0"
       }
     ]
   },
