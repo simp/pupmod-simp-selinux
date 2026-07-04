@@ -13,7 +13,6 @@ class selinux::service {
   }
 
   if $selinux::manage_mcstrans_service {
-
     if 'systemd' in pick($facts.dig('init_systems') , []) {
       # If hidepid is set > 0 and a GID is set, then the service must have that
       # GID added to its supplementary groups at start time

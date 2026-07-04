@@ -76,7 +76,6 @@ class selinux (
   Enum['targeted','mls'] $mode                        = 'targeted',
   Optional[Hash]         $login_resources             = undef
 ) {
-
   $state = $ensure ? {
     true    => 'enforcing',
     false   => 'disabled',

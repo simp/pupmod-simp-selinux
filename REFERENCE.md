@@ -183,7 +183,7 @@ The following parameters are available in the `selinux::install` class:
 
 Data type: `Boolean`
 
-
+Whether to manage the SELinux utility packages
 
 Default value: `pick(getvar('selinux::manage_utils_package'), true)`
 
@@ -191,7 +191,7 @@ Default value: `pick(getvar('selinux::manage_utils_package'), true)`
 
 Data type: `Array[String]`
 
-
+The SELinux utility packages to manage when ``manage_utils_package`` is set
 
 Default value: `['checkpolicy']`
 
@@ -199,7 +199,7 @@ Default value: `['checkpolicy']`
 
 Data type: `Boolean`
 
-
+Whether to manage the MCS translation daemon package
 
 Default value: `simplib::lookup('selinux::manage_mcstrans_package')`
 
@@ -207,7 +207,7 @@ Default value: `simplib::lookup('selinux::manage_mcstrans_package')`
 
 Data type: `String`
 
-
+The name of the MCS translation daemon package
 
 Default value: `simplib::lookup('selinux::mcstrans_package_name')`
 
@@ -215,7 +215,7 @@ Default value: `simplib::lookup('selinux::mcstrans_package_name')`
 
 Data type: `Boolean`
 
-
+Whether to manage the ``restorecond`` package
 
 Default value: `simplib::lookup('selinux::manage_restorecond_package')`
 
@@ -223,7 +223,7 @@ Default value: `simplib::lookup('selinux::manage_restorecond_package')`
 
 Data type: `String`
 
-
+The name of the ``restorecond`` package
 
 Default value: `simplib::lookup('selinux::restorecond_package_name')`
 
@@ -231,9 +231,9 @@ Default value: `simplib::lookup('selinux::restorecond_package_name')`
 
 Data type: `String`
 
+The ``ensure`` value applied to all packages managed by this class
 
-
-Default value: `simplib::lookup('selinux::package_ensure', { 'default_value' => simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' } ) } )`
+Default value: `simplib::lookup('selinux::package_ensure', { 'default_value' => simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' }) })`
 
 ### <a name="selinux--service"></a>`selinux::service`
 
@@ -264,13 +264,13 @@ Default value: `present`
 
 ##### `mls_range`
 
-Valid values: `/^.+$/`
+Valid values: `%r{^.+$}`
 
 The Multi-Level Security range to be applied to the login
 
 ##### `seuser`
 
-Valid values: `/^.+$/`
+Valid values: `%r{^.+$}`
 
 The SELinux user to which the login should be mapped.
 You can get a list by running `semanage user -l`
