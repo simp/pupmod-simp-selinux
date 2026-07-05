@@ -12,5 +12,3 @@ fixtures:
     vox_selinux:
       repo: https://github.com/simp/pupmod-voxpupuli-selinux.git
       branch: simp-master
-  symlinks:
-    selinux: "#{source_dir}"
