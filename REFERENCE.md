@@ -83,17 +83,23 @@ Data type: `Boolean`
 
 
 
+Default value: `false`
+
 ##### <a name="-selinux--manage_mcstrans_service"></a>`manage_mcstrans_service`
 
 Data type: `Boolean`
 
 
 
+Default value: `false`
+
 ##### <a name="-selinux--mcstrans_package_name"></a>`mcstrans_package_name`
 
 Data type: `String`
 
 
+
+Default value: `'mcstrans'`
 
 ##### <a name="-selinux--mcstrans_service_name"></a>`mcstrans_service_name`
 
