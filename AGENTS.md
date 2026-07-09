@@ -17,7 +17,7 @@ The module is split into the classic SIMP install/config/service layering behind
 a single public entry class. Because changing SELinux state (especially
 `disabled` ↔ `enforcing`) requires a relabel and a reboot to fully take effect,
 the config class emits a `reboot_notify` whenever the state resource changes
-(`manifests/config.pp:6-12`).
+(`manifests/config.pp`).
 
 ### Business logic
 
@@ -26,15 +26,15 @@ The module has four classes — `selinux` (public entry), and the private
 `Selinux::State` data type and two Ruby types/providers (`selinux_state`,
 `selinux_login`).
 
-- **`selinux` (`manifests/init.pp:62-100`)** — Public entry class (consumers
+- **`selinux` (`manifests/init.pp`)** — Public entry class (consumers
   `include 'selinux'`; not `assert_private()`'d). Several parameters have **no
   default in the manifest** and are supplied from module data
-  (`data/common.yaml`, `data/os/RedHat.yaml`) — see `init.pp:63-70`:
+  (`data/common.yaml`, `data/os/RedHat.yaml`) — see `init.pp`:
   `$manage_mcstrans_package`, `$manage_mcstrans_service`,
   `$mcstrans_package_name`, `$mcstrans_service_name`,
   `$manage_restorecond_package`, `$manage_restorecond_service`,
   `$restorecond_package_name`. Parameters with in-manifest defaults
-  (`init.pp:71-77`):
+  (`init.pp`):
   - `$ensure` (`Selinux::State`, default `'enforcing'`) — the master switch. A
     `Boolean` or one of `enforcing` / `permissive` / `disabled`.
   - `$kernel_enforce` (`Boolean`, default `false`) — whether to also pin the
@@ -44,59 +44,59 @@ The module has four classes — `selinux` (public entry), and the private
   - `$manage_utils_package` (`Boolean`, default `true`).
   - `$package_ensure` (`String`) — defaults to
     `simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' })`
-    (`init.pp:75`).
+    (`init.pp`).
   - `$mode` (`Enum['targeted','mls']`, default `'targeted'`) — the docstring
-    warns `mls` can render a system inoperable (`init.pp:9`).
+    warns `mls` can render a system inoperable (`init.pp`).
   - `$login_resources` (`Optional[Hash]`, default `undef`).
 
   Control flow and resources:
-  - `$state` selector (`init.pp:80-84`) normalises the `Boolean`/enum `$ensure`
+  - `$state` selector (`init.pp`) normalises the `Boolean`/enum `$ensure`
     into a bare string: `true => 'enforcing'`, `false => 'disabled'`, otherwise
     the passed enum.
   - `contain`s `selinux::install`, `selinux::config`, `selinux::service`, and
-    `vox_selinux` (`init.pp:86-89`), with ordering
-    `install -> config ~> service` (`init.pp:91-93`).
-  - **`selinux_login` creation** (`init.pp:95-99`): only when `$login_resources`
+    `vox_selinux` (`init.pp`), with ordering
+    `install -> config ~> service` (`init.pp`).
+  - **`selinux_login` creation** (`init.pp`): only when `$login_resources`
     is set **and** the fact `os.selinux.current_mode` is present and not
     `disabled`, it `create_resources('selinux_login', $login_resources)`.
 
-- **`selinux::install` (`manifests/install.pp:3-23`)** — its own parameters
+- **`selinux::install` (`manifests/install.pp`)** — its own parameters
   re-derive from the parent via `pick(getvar('selinux::manage_utils_package'), true)`
-  and `simplib::lookup('selinux::*')` (`install.pp:4-10`). `$package_ensure`
+  and `simplib::lookup('selinux::*')` (`install.pp`). `$package_ensure`
   here has a **nested** default:
   `simplib::lookup('selinux::package_ensure', { 'default_value' => simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' }) })`
-  (`install.pp:10`). It `ensure_packages` the utils packages
-  (`['checkpolicy']`, `install.pp:5,12-14`), and conditionally the `mcstrans`
-  and `restorecond` packages (`install.pp:16-22`).
+  (`install.pp`). It `ensure_packages` the utils packages
+  (`['checkpolicy']`, `install.pp`), and conditionally the `mcstrans`
+  and `restorecond` packages (`install.pp`).
 
-- **`selinux::config` (`manifests/config.pp:3-57`)** — `assert_private()`.
-  Declares `reboot_notify { 'selinux' }` (`config.pp:6`) and the
+- **`selinux::config` (`manifests/config.pp`)** — `assert_private()`.
+  Declares `reboot_notify { 'selinux' }` (`config.pp`) and the
   `selinux_state { 'set_selinux_state' }` resource carrying `$selinux::ensure` /
-  `$selinux::autorelabel`, notifying the reboot (`config.pp:8-12`). Computes
+  `$selinux::autorelabel`, notifying the reboot (`config.pp`). Computes
   `$_enabling` / `$_disabling` booleans from the live `os.selinux.enabled` fact
-  vs. the desired `$state` (`config.pp:14-15`). When `$kernel_enforce`
-  (`config.pp:17-43`): sets `kernel_parameter { 'selinux' }` to `'0'` when
+  vs. the desired `$state` (`config.pp`). When `$kernel_enforce`
+  (`config.pp`): sets `kernel_parameter { 'selinux' }` to `'0'` when
   disabled, else `'1'`, plus `kernel_parameter { 'enforcing' }` = `'0'` for
   permissive / `'1'` otherwise — each notifying the reboot. Finally writes
   `file { '/etc/selinux/config' }` (mode `0644`) from the EPP template
-  `selinux/etc/selinux/config` with `state` and `mode` (`config.pp:45-56`).
+  `selinux/etc/selinux/config` with `state` and `mode` (`config.pp`).
 
-- **`selinux::service` (`manifests/service.pp:3-56`)** — `assert_private()`.
+- **`selinux::service` (`manifests/service.pp`)** — `assert_private()`.
   Chooses `$_aux_service_ensure`: `'stopped'` when the desired state is
   `disabled` **or** SELinux is not currently enabled, else `'running'`
-  (`service.pp:6-13`). When `$manage_mcstrans_service`, and **only on systemd
-  systems** (`service.pp:17`), if `/proc` is mounted with `hidepid > 0` and a
+  (`service.pp`). When `$manage_mcstrans_service`, and **only on systemd
+  systems** (`service.pp`), if `/proc` is mounted with `hidepid > 0` and a
   GID is set, it asserts the optional `puppet/systemd` dependency and writes a
   `systemd::dropin_file` adding that GID to the service's `SupplementaryGroups`
-  (`service.pp:18-35`) — the mcstrans daemon needs the GID to see hidden
+  (`service.pp`) — the mcstrans daemon needs the GID to see hidden
   `/proc` entries. It then declares the `mcstrans` and (if
   `$manage_restorecond_service`) `restorecond` services at `$_aux_service_ensure`
-  (`service.pp:38-55`), both requiring `Class['selinux::install']`.
+  (`service.pp`), both requiring `Class['selinux::install']`.
 
 ### Gotchas / non-obvious details
 
 - **Several `selinux` parameters have no manifest default** and rely entirely on
-  module data being present (`init.pp:63-70`; `data/common.yaml`,
+  module data being present (`init.pp`; `data/common.yaml`,
   `data/os/RedHat.yaml`). Removing or renaming those Hiera keys breaks
   compilation with a "no default" error, not a silent fallback.
 - **`mcstrans` and `restorecond` management is off by default.**
@@ -106,37 +106,37 @@ The module has four classes — `selinux` (public entry), and the private
   `data/os/RedHat.yaml`, not `common.yaml`.
 - **A reboot is required to fully apply a state change.** The `selinux_state`
   resource and every `kernel_parameter` notify `reboot_notify { 'selinux' }`
-  (`config.pp:6-43`). This is why the module cannot flip enforcement purely in a
+  (`config.pp`). This is why the module cannot flip enforcement purely in a
   single `puppet apply`.
 - **`selinux_login` resources are silently skipped** unless the
-  `os.selinux.current_mode` fact is present and not `disabled` (`init.pp:96`) —
+  `os.selinux.current_mode` fact is present and not `disabled` (`init.pp`) —
   you cannot create login mappings on a host where SELinux is off.
 - **The hidepid drop-in is systemd-only and doubly-guarded.** It fires only when
   `'systemd' in init_systems`, `/proc` `hidepid > 0`, and a `/proc` GID is set
-  (`service.pp:17-24`); only then is `puppet/systemd` asserted as an optional
+  (`service.pp`); only then is `puppet/systemd` asserted as an optional
   dependency.
 - **`vox_selinux` does the real policy work.** `selinux` always
-  `contain 'vox_selinux'` (`init.pp:89`); this module manages the surrounding
+  `contain 'vox_selinux'` (`init.pp`); this module manages the surrounding
   state/config/services and the login mappings, not the policy modules
   themselves.
 - **`$mode => 'mls'` is dangerous** — the class docstring explicitly warns it
-  can render a system inoperable (`init.pp:9`).
+  can render a system inoperable (`init.pp`).
 - **`simp/simp_options` is NOT a declared dependency** in `metadata.json`, yet
   the manifests consume the `simp_options::package_ensure` seam via
   `simplib::lookup` (provided by `simp/simplib`). `puppet/systemd` is an
   **optional** dependency, asserted at runtime with
   `simplib::assert_optional_dependency` only on the hidepid path
-  (`service.pp:24`).
+  (`service.pp`).
 
 ## The `simp_options` / `simplib::lookup` seam
 
 The module's SIMP feature-toggle seam is `simp_options::package_ensure`, reached
 through `simplib::lookup` with an explicit default:
 
-| Line | Key | `default_value` |
+| File | Key | `default_value` |
 |------|-----|-----------------|
-| `init.pp:75` | `simp_options::package_ensure` | `'present'` |
-| `install.pp:10` | `selinux::package_ensure` → `simp_options::package_ensure` | `'present'` (nested lookup) |
+| `init.pp` | `simp_options::package_ensure` | `'present'` |
+| `install.pp` | `selinux::package_ensure` → `simp_options::package_ensure` | `'present'` (nested lookup) |
 
 Keep routing package-ensure through `simplib::lookup('simp_options::*', {
 'default_value' => ... })` with an explicit default rather than assuming
@@ -159,7 +159,7 @@ Optional dependency (from `metadata.json` `simp.optional_dependencies`):
 
 - `puppet/systemd` `>= 4.0.2 < 9.0.0` — used only on the systemd hidepid path,
   asserted at runtime with `simplib::assert_optional_dependency`
-  (`manifests/service.pp:24`).
+  (`manifests/service.pp`).
 
 Runtime requirement (from `metadata.json` `requirements`): `openvox
 >= 8.0.0 < 9.0.0`. This module already names **openvox** (not `puppet`) as its
@@ -247,7 +247,7 @@ defaults to `puppet_version` on line 24; a loop over `['openvox','puppet']` on
 line 30). Relevant gem pins: `puppetlabs_spec_helper ~> 8.0.0`,
 `simp-rake-helpers ~> 5.25.0` (note: this module pins **5.25.0**, not the more
 common 5.24.0), `simp-beaker-helpers ~> 2.0.0`. Rubocop is pinned to
-`~> 1.88.0`. `spec/spec_helper.rb:11` requires
+`~> 1.88.0`. `spec/spec_helper.rb` requires
 `puppetlabs_spec_helper/module_spec_helper`.
 
 ## Conventions
@@ -267,7 +267,7 @@ common 5.24.0), `simp-beaker-helpers ~> 2.0.0`. Rubocop is pinned to
   `simplib::assert_optional_dependency` and a fact check, as the hidepid path
   does — don't hard-`include` optional modules.
 - Keep the private classes private: `selinux::config` and `selinux::service`
-  call `assert_private()` (`config.pp:4`, `service.pp:4`) — consumers should
+  call `assert_private()` (`config.pp`, `service.pp`) — consumers should
   `include 'selinux'`, never the sub-classes directly.
 - `Gemfile`, `spec/spec_helper.rb`, and `.github/workflows/pr_tests.yml` carry a
   **puppetsync** notice — they are baseline-managed and the next sync overwrites
