@@ -204,8 +204,7 @@ OracleLinux 8/9/10; Rocky 8/9/10; AlmaLinux 8/9/10.
 - `REFERENCE.md` — generated Puppet Strings reference.
 
 - **Acceptance does NOT run in CI right now.** In
-  `.github/workflows/pr_tests.yml` the `acceptance` job is **commented out**
-  (lines 117-155): it targets the `docker_*` nodesets but is disabled because
+  `.github/workflows/pr_tests.yml` the `acceptance` job is **commented out**: it targets the `docker_*` nodesets but is disabled because
   the tests require reboots, which Docker cannot perform. The active jobs are
   six: `puppet-syntax`, `puppet-style`, `ruby-style`, `file-checks`,
   `releng-checks`, and `spec-tests`. To exercise acceptance you must run beaker
@@ -240,11 +239,10 @@ puppet strings generate --format markdown --out REFERENCE.md
 bundle exec rake beaker:suites[default]
 ```
 
-The `Gemfile` sets `puppet_version` to `['>= 8', '< 9']` (line 23) and — per an
+The `Gemfile` sets `puppet_version` to `['>= 8', '< 9']` and — per an
 in-file comment — **installs both the `openvox` and `puppet` gems** "temporarily
 until the puppet dependency is removed from other gems" (`openvox_version`
-defaults to `puppet_version` on line 24; a loop over `['openvox','puppet']` on
-line 30). Relevant gem pins: `puppetlabs_spec_helper ~> 8.0.0`,
+defaults to `puppet_version`; a loop over `['openvox','puppet']`). Relevant gem pins: `puppetlabs_spec_helper ~> 8.0.0`,
 `simp-rake-helpers ~> 5.25.0` (note: this module pins **5.25.0**, not the more
 common 5.24.0), `simp-beaker-helpers ~> 2.0.0`. Rubocop is pinned to
 `~> 1.88.0`. `spec/spec_helper.rb` requires
