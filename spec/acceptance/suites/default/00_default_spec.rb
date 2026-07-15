@@ -7,6 +7,25 @@ describe 'selinux class' do
     let(:manifest) { "include 'selinux'" }
     let(:host_fqdn) { fact_on(host, 'fqdn') }
 
+    # Exercise noop from a clean state: on a fresh node the Sicura console
+    # previews the module with `puppet apply --noop`, which must not error. This
+    # runs first, before the prep context flips SELinux to permissive and
+    # reboots, so it is the genuine fresh-node preview. Real behaviour
+    # (enabling/enforcing, idempotence, reboot) is covered by the contexts
+    # below. A post-convergence noop check is deliberately omitted: `puppet
+    # apply --noop --detailed-exitcodes` always exits 0.
+    #
+    # No `before` package removal: selinux manages SELinux *state* and config,
+    # not a removable package -- `libselinux-utils` (which provides the
+    # setenforce/getenforce the state provider confines to) is a base package
+    # present on any EL node the console previews. The value here is confirming
+    # `include 'selinux'` compiles and evaluates under --noop without error.
+    context 'in noop mode from a clean state' do
+      it 'applies without errors in noop mode' do
+        apply_manifest_on(host, manifest, catch_failures: true, noop: true)
+      end
+    end
+
     context 'prep' do
       # There have been issues with OEL 7 and SSH hanging due to an old EL7 bug
       if fact_on(host, 'operatingsystem').strip == 'OracleLinux'
