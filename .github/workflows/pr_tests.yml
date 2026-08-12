@@ -70,6 +70,19 @@ jobs:
       - run: bundle exec rake check:dot_underscore
       - run: bundle exec rake check:test_file
 
+  reference:
+    name: 'REFERENCE.md freshness'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: 'Install Ruby 3.4'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.4.9
+          bundler-cache: true
+      - name: 'Check REFERENCE.md freshness'
+        run: bundle exec rake validate:strings
+
   releng-checks:
     name: 'RELENG checks'
     runs-on: ubuntu-latest
@@ -122,6 +135,7 @@ jobs:
       - run: 'command -v rpm || if command -v apt-get; then sudo apt-get update; sudo apt-get install -y rpm; fi ||:'
       - run: 'bundle exec rake parallel_spec'
         continue-on-error: ${{matrix.puppet.experimental}}
+
   acceptance:
     runs-on:
       - ubuntu-latest
