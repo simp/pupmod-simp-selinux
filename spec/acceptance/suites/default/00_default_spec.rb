@@ -53,7 +53,7 @@ describe 'selinux class' do
       end
     end
 
-    context 'with selinux:ensure: false' do
+    context 'with selinux::ensure: false' do
       let(:hieradata) do
         {
           'selinux::ensure' => false,
