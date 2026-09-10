@@ -31,14 +31,14 @@ class selinux::install (
   String        $package_ensure             = simplib::lookup('selinux::package_ensure', { 'default_value' => simplib::lookup('simp_options::package_ensure', { 'default_value' => 'present' }) })
 ) {
   if $manage_utils_package {
-    ensure_packages($utils_packages, { 'ensure' => $package_ensure })
+    stdlib::ensure_packages($utils_packages, { 'ensure' => $package_ensure })
   }
 
   if $manage_mcstrans_package {
-    ensure_packages([$mcstrans_package_name], { 'ensure' => $package_ensure })
+    stdlib::ensure_packages([$mcstrans_package_name], { 'ensure' => $package_ensure })
   }
 
   if $manage_restorecond_package {
-    ensure_packages([$restorecond_package_name], { 'ensure' => $package_ensure })
+    stdlib::ensure_packages([$restorecond_package_name], { 'ensure' => $package_ensure })
   }
 }
