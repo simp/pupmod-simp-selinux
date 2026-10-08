@@ -1,6 +1,6 @@
 {
   "name": "simp-selinux",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "author": "SIMP Team",
   "summary": "manages the SELinux system state",
   "license": "Apache-2.0",
@@ -78,7 +78,7 @@
   "requirements": [
     {
       "name": "openvox",
-      "version_requirement": ">= 8.0.0 < 9.0.0"
+      "version_requirement": ">= 8.0.0 < 10.0.0"
     }
   ]
 }
